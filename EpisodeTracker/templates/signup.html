@@ -1,0 +1,50 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} <title>Signup</title> {% endblock %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/formstyle.css' %}">
+{% endblock %}
+{% block content %}
+<div id="content-supercontainer">
+<div id="content-midcontainer">
+  <br>
+  <h2 id="heading" style="text-align: center;">Sign up</h2>
+  <br>
+  <div style="display: flex; align-items: center; justify-content: center;">
+  <a style="color: #1a73e8;" href="{% url 'login' %}">Already have an account?</a>
+  </div>
+  <br>
+  <br>
+  <div id="content-lastcontainer">
+  <form method="post"> {% csrf_token %}
+    {% for field in form %}
+    {{ field.label_tag }}&nbsp;&nbsp;
+    {% if field.field.required %}
+    <div style="display: inline-block; color: red;">
+    Required
+    </div>
+    {% else %}
+    <div style="display: inline-block; color: green;">
+    Optional
+    </div>
+    {% endif %}
+    {% if field.field.widget.input_type == 'password' %}
+    {{ field }} {% if field.help_text %} {{ field.help_text|striptags }} {% endif %}<br>
+    {% else %}
+    {{ field }}
+    {% endif %}
+    <strong style="color: red;">{{ field.errors|striptags }}</strong>
+  <br><br>
+  {% endfor %}
+  <br>
+  <button type="submit" class="btn btn-primary">Sign Up</button>
+  <div id="flex-container">
+  <a id="signup-account-question" href="{% url 'login' %}">Already have an account?</a>
+  </div>
+  <br><br>
+  </form>
+</div>
+</div>
+</div>
+<br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

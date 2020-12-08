@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} <title>Report</title> {% endblock %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/formstyle.css' %}">
+{% endblock %}
+{% block content %}
+<div id="content-supercontainer">
+<div id="content-midcontainer">
+  <br>
+  <h2 id="heading" style="text-align: center;">Report a Bug</h2>
+  <br>
+  <div style="display: flex; align-items: center; justify-content: center;">
+  <p id="login-account-question" style="color: black;">Or report direcly to developer's Gmail: <b>k.sonuc101@gmail.com</b></p>
+  </div>
+  <br>
+  <div id="content-lastcontainer">
+  <form method="POST"> {% csrf_token %}
+    <div class="form-group">
+  <label for="id_title">Title:</label>&nbsp;&nbsp;
+  <input type="text" name="title" maxlength="150" autofocus="" class="form-control" required="" id="id_title">
+  <br>
+  </div>
+  <div class="form-group">
+  <label for="id_description">Description:</label>&nbsp;&nbsp;
+  <textarea rows="7" name="description" class="form-control" required="" id="id_description"></textarea>
+  <br>
+  </div>
+    <button class="btn btn-outline-danger" type="submit">Report</button>
+  </form>
+ </div>
+</div>
+<br><br>
+</div>
+<br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

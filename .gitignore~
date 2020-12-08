@@ -1,0 +1,15 @@
+*.py
+!models.py
+!views.py
+!forms.py
+!urls.py
+!admin.py
+!settings.py
+**/img
+**/migrations
+**/media
+**/__pycache__
+**/StaticStorage
+/EpisodeTraceker
+/EpisodeTrackerProject
+db.sqlite3

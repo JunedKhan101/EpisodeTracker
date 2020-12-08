@@ -1,0 +1,81 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/formstyle.css' %}">
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<div id="content-supercontainer">
+<div id="content-midcontainer">
+<div id="content-lastcontainer">
+	<br>
+<h1 id="heading" style="text-align: center;">Edit Profile</h1>
+<form method="POST"> {% csrf_token %}
+  <div class="form-group">
+  <label for="id_username">Username:</label>&nbsp;&nbsp;<div id="helptext" style="display: inline-block; color: red;">Required</div>
+  <input type="text" name="username" maxlength="30" autofocus="" class="form-control" required="" id="id_username" value={{ user.username }}>
+  30 characters or fewer. Letters, digits and @/./+/-/_ only.
+  <br>
+  </div>
+
+  <div class="form-group">
+  <label for="id_birth_date">Birth date:</label>&nbsp;&nbsp;<div id="helptext" style="display: inline-block; color: green;">Optional</div>
+  <input type="date" name="birth_date" class="form-control" id="id_birth_date" value={{ user.profile.birth_date|date:'Y-m-d' }}>
+  <br>
+  </div>
+
+  <div class="form-group">
+  <label for="id_first_name">First name:</label>&nbsp;&nbsp;<div id="helptext" style="display: inline-block; color: green;">Optional</div>
+  <input type="text" name="first_name" maxlength="30" class="form-control" id="id_first_name" value={{ user.first_name }}>
+  <br>
+  </div>
+
+  <div class="form-group">
+  <label for="id_last_name">Last name:</label>&nbsp;&nbsp;<div id="helptext" style="display: inline-block; color: green;">Optional</div>
+  <input type="text" name="last_name" maxlength="30" class="form-control" id="id_last_name" value={{ user.last_name }}>
+  <br>
+  </div>
+
+  <div class="form-group">
+  <label for="id_email">Email:</label>&nbsp;&nbsp;<div id="helptext" style="display: inline-block; color: red;">Required</div>
+  <input type="email" name="email" maxlength="254" class="form-control" required="" id="id_email" value={{ user.email }}>
+  </div>
+  <br>
+  <div class="form-group">
+    <a href="pwd" class="btn btn-outline-dark">Change Password</a>
+  </div>
+  <br><br>
+  <button type="submit" class="btn btn-primary">Save Changes</button>
+  {% if messages %}
+    <div id="myModal" class="w3-modal">
+    <div id="super-modal-container" class="w3-modal-content w3-animate-top w3-card-4">
+      <header id="sub-modal-container" class="w3-container"> 
+        <span id= "modal-span" onclick="document.getElementById('myModal').style.display='none'" 
+        class="w3-button w3-display-topright">&times;</span>
+        <h2 id="modal-title">Note:</h2>
+      </header>
+      <div id="modal-body" class="w3-container">
+        <div id="modal-body-content">
+          {% for msg in messages %}
+            {% if msg.level == 40 %}
+            <p style="color: red;"> {{ msg }} </p>
+            {% elif msg.level == 25 %}
+              <p style="color: green;"> {{ msg }} </p>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endif %}
+</form>
+</div>
+</div>
+<br><br>
+</div>
+<br><br><br><br>
+{% elif request.user.is_anonymous %}
+<h1 style="text-align: center;">You are not logged in.</h1>
+{% endif %}
+{% endblock %}

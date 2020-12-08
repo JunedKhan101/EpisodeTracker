@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} <title>Series</title> {% endblock %}
+{% block style %}
+	<link rel="stylesheet" href="{% static 'css/seriesliststyle.css' %}">
+{% endblock %}
+{% block content %}
+<button id="create-series-btn" class="btn btn-primary" data-toggle="modal" data-target="#seriesmodal">Add series</button>
+
+<div class="dropdown" style="position: absolute; right: 10%; top: 10%;" >
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Layout
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{% url 'series' %}">Grid</a>
+    <a class="dropdown-item active" href="{% url 'serieslist' %}">List</a>
+    <a class="dropdown-item" href="{% url 'seriessimple' %}">Simple</a>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="seriesmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Create new series</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" id="SeriesForm" enctype="multipart/form-data"> {% csrf_token %}
+        	{% for field in form %}
+        	{{ field.label_tag }} {{ field }}<br>
+        	{% endfor %}
+
+        	<strong id="errormsg" style="color: red;">
+         </strong>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" form="SeriesForm">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="series-root-container">
+  {% for series in obj %}
+  <div id="series-card">
+    <h5 style="padding-left: 5px;">{{ series.SeriesName }}</h5>
+    <p style="padding-left: 5px; position: relative; bottom: 5px;">
+    {{series.EpisodesWatched}}/{{series.NoEpisodes}} Watched
+    </p>
+  </div>
+  {% endfor %}
+</div>
+<br><br><br><br><br>
+<script>
+    `{% if form.non_field_errors %}`
+    	$("#errormsg").html( `{{ form.non_field_errors|striptags }}` );
+    	$("#seriesmodal").modal('show');
+    `{% endif %}`
+
+    {% if messages %}
+      {% for msg in messages %}
+        $("#errormsg").html( `{{ msg }}` );
+      {% endfor %}
+      $("#seriesmodal").modal('show');
+    {% endif %}
+</script>
+{% endblock %}

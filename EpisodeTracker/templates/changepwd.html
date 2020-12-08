@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/formstyle.css' %}">
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<form method="post"> {% csrf_token %}
+<div id="content-supercontainer">
+<div id="content-midcontainer">
+  <br>
+  <h2 id="heading" style="text-align: center;">Change Password</h2>
+  <br><br>
+  <div id="content-lastcontainer">
+  <form method="post"> {% csrf_token %}
+    {% for field in form %}
+    {{ field.label_tag }}&nbsp;&nbsp;
+    {{ field|add_class:"form-control" }}
+    {% if field.help_text %} {{ field.help_text|striptags }} {% endif %}
+    <br>
+    <strong style="color: red;">{{ field.errors|striptags }}</strong>
+  <br>
+  {% endfor %}
+  <strong>You'll be redirected to profile page and you should receive an email if your password has successfully changed</strong>
+  <br><br>
+  <button type="submit" class="btn btn-primary">Change Password</button>
+  <br><br>
+  </form>
+</div>
+</div>
+</div>
+</form>
+{% elif request.user.is_anonymous %}
+<h1 style="text-align: center;">You are not logged in.</h1>
+{% endif %}
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

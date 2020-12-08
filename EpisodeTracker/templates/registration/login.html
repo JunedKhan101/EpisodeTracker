@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} <title>Login</title> {% endblock %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/formstyle.css' %}">
+{% endblock %}
+{% block content %}
+<div id="content-supercontainer">
+<div id="content-midcontainer">
+  <br>
+  <h2 id="heading" style="text-align: center;">Login</h2>
+  <br>
+  <div style="display: flex; align-items: center; justify-content: center;">
+  <a id="login-account-question" href="{% url 'signup' %}">Don't have an account?</a>
+  </div>
+  <br>
+  <br>
+  <div id="content-lastcontainer-login">
+  <form method="POST"> {% csrf_token %}
+    {% for field in form %}
+    {{ field.label_tag }}  {{ field|add_class:"form-control" }}<br><br>
+    {% endfor %}
+    {% if form.errors %}
+    <div id="myModal" class="w3-modal">
+    <div id="super-modal-container" class="w3-modal-content w3-animate-top w3-card-4">
+      <header id="sub-modal-container" class="w3-container"> 
+        <span id= "modal-span" onclick="document.getElementById('myModal').style.display='none'" 
+        class="w3-button w3-display-topright">&times;</span>
+        <h2 id="modal-title">Error</h2>
+      </header>
+      <div id="modal-body" class="w3-container">
+        <p style="color: red;" id="modal-body-content">{% for key, value in form.errors.items %} {{ value|striptags }} {% endfor %}</p>
+      </div>
+    </div>
+  </div>
+    {% endif %}
+    <button class="btn btn-primary" type="submit">Login</button>
+    <div id="flex-container">
+    <a id="forgot-password" href="{% url 'password_reset' %}">Forgot Password?</a>
+    </div>
+  </form>
+  <br>
+ </div>
+</div>
+</div>
+<br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

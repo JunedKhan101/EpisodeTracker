@@ -1,0 +1,20 @@
+/*------------------Series--------------------*/
+#create-series-btn {
+  position: relative;
+  left: 50%;
+  top: 34px;
+  transform: translate(-50%, -50%);
+}
+#series-root-container {
+  position: relative;
+  top: 13%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: auto auto auto auto;
+  grid-row-gap: 50px;
+  grid-column-gap: 150px;
+}
+#series-card {
+  
+}
