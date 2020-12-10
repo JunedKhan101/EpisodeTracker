@@ -37,5 +37,11 @@ class Series(models.Model):
     Label = models.CharField(max_length=20, choices=LabelChoices, default="Series")
     CoverImage = models.ImageField(upload_to="uploads", null=True, blank=True, default="/noimg.png")
     DateCreated = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return self.SeriesName
+
     class Meta:
         verbose_name_plural = "Series"
+
+    

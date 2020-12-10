@@ -12,9 +12,9 @@
     Layout
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="{% url 'series' %}">Grid</a>
-    <a class="dropdown-item active" href="{% url 'serieslist' %}">List</a>
-    <a class="dropdown-item" href="{% url 'seriessimple' %}">Simple</a>
+      <a id="link" class="dropdown-item" href="{% url 'series' %}">Grid</a>
+      <a id="link" class="dropdown-item active" href="{% url 'serieslist' %}">List</a>
+      <a  id="link" class="dropdown-item" href="{% url 'seriessimple' %}">Simple</a>
   </div>
 </div>
 <!-- Modal -->
@@ -57,16 +57,16 @@
 </div>
 <br><br><br><br><br>
 <script>
-    `{% if form.non_field_errors %}`
-    	$("#errormsg").html( `{{ form.non_field_errors|striptags }}` );
-    	$("#seriesmodal").modal('show');
-    `{% endif %}`
+  `{% if form.non_field_errors %}`
+  	$("#errormsg").html( `{{ form.non_field_errors|striptags }}` );
+  	$("#seriesmodal").modal('show');
+  `{% endif %}`
 
-    {% if messages %}
-      {% for msg in messages %}
-        $("#errormsg").html( `{{ msg }}` );
-      {% endfor %}
-      $("#seriesmodal").modal('show');
-    {% endif %}
+  {% if messages %}
+    {% for msg in messages %}
+      $("#errormsg").html( `{{ msg }}` );
+    {% endfor %}
+    $("#seriesmodal").modal('show');
+  {% endif %}
 </script>
 {% endblock %}

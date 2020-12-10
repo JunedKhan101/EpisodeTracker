@@ -14,10 +14,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script src = "{% static 'js/main.js' %}"></script>
+<!-- <script src = "{% static 'js/main.js' %}"></script> -->
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.datetimepicker.css' %}">
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.datetimepicker.css' %}"> -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400&display=swap" rel="stylesheet">
@@ -55,7 +55,7 @@
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'series' %}">My Series</a>
+          <a class="nav-link" id="MySeries" href="{{ request.session.layout }}">My Series</a>
         </li>
         {% endif %}
         <li class="nav-item">
@@ -133,6 +133,14 @@
 {% endblock %}
 <br><br><br><br><br>
 </div>
+
+<script type="text/javascript">
+  function getSession() {
+    var myseries = document.getElementById("MySeries");
+    myseries.href = sessionStorage.layout;
+  }
+</script>
+
 </body>
 
 <footer id="footer">

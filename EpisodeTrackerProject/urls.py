@@ -1,4 +1,4 @@
-"""AET URL Configuration
+"""EpisodeTrackerProject URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -24,9 +24,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.homeview, name='home'),
+
     path('series/', views.seriesview, name='series'),
     path('series/list', views.serieslistview, name='serieslist'),
     path('series/simple', views.seriessimpleview, name='seriessimple'),
+    
     path('about/', views.aboutview, name='about'),
     path('report/', views.reportview, name='report'),
     path('profile/', views.profileview, name='profile'),

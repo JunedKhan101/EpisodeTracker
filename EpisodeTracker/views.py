@@ -67,6 +67,10 @@ def changepwd(request):
 def seriesview(request):
     form = SeriesForm(request.POST or None)
     obj = Series.objects.filter(user_id=request.user.id)
+
+    if request.session.get('layout', None) != '/series':
+        request.session['layout'] = '/series'
+
     if request.method == 'POST':
         form = SeriesForm(request.POST, request.FILES)
         if form.is_valid():
@@ -83,6 +87,10 @@ def seriesview(request):
 def serieslistview(request):
     form = SeriesForm(request.POST or None)
     obj = Series.objects.filter(user_id=request.user.id)
+
+    if request.session.get('layout', None) != '/series/list':
+        request.session['layout'] = '/series/list'
+
     if request.method == 'POST':
         form = SeriesForm(request.POST, request.FILES)
         if form.is_valid():
@@ -99,6 +107,10 @@ def serieslistview(request):
 def seriessimpleview(request):
     form = SeriesForm(request.POST or None)
     obj = Series.objects.filter(user_id=request.user.id)
+
+    if request.session.get('layout', None) != '/series/simple':
+        request.session['layout'] = '/series/simple'
+
     if request.method == 'POST':
         form = SeriesForm(request.POST, request.FILES)
         if form.is_valid():
