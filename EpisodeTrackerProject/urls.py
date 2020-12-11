@@ -21,9 +21,12 @@ from django.contrib.auth import views as auth_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.homeview, name='home'),
+
+    path('series/<slug:slug>', views.EditSeries, name = 'seriespage'),
 
     path('series/', views.seriesview, name='series'),
     path('series/list', views.serieslistview, name='serieslist'),

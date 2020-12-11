@@ -47,6 +47,7 @@
 
 <div id="series-root-container">
   {% for series in obj %}
+  <a href="{% url 'seriespage' series.slug %}" style="text-decoration: none;">
   <div class="series-card">
    {% if series.CoverImage %}
    <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Img">
@@ -56,6 +57,7 @@
     <p style="position: relative; bottom: 5px;">{{series.EpisodesWatched}}/{{series.NoEpisodes}} Watched</p>
   </div>
 </div>
+</a>
 {% endfor %}
 </div>
 
