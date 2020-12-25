@@ -1,14 +1,26 @@
 /*------------------Series--------------------*/
 #create-series-btn {
-  position: relative;
+  position: absolute;
   left: 50%;
-  top: 34px;
+  top: 100px;
+  transform: translate(-50%, -50%);
+}
+#noseries {
+  position: absolute;
+  left: 50%;
+  top: 200px;
+  transform: translate(-50%, -50%);
+}
+#LayoutDropdown {
+  position: absolute;
+  right: 3%;
+  top: 100px;
   transform: translate(-50%, -50%);
 }
 #series-root-container {
   position: relative;
   left: 12%;
-  top: 20%;
+  top: 30%;
   transform: translate(-50px, -50px);
   display: flex;
   flex-direction: column;
@@ -19,6 +31,11 @@
 }
 #series-root-container > *:not(:first-child){
     margin-top: 30px;
+}
+#ahref-seriescard {
+  width: 100%;
+  height: 80px;
+  text-decoration: none;
 }
 #series-card {
   width: 100%;

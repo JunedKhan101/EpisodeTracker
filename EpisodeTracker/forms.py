@@ -40,9 +40,10 @@ class EditProfileForm(UserChangeForm):
 class SeriesForm(forms.ModelForm):
 	class Meta:
 		model = Series
-		fields = ('SeriesName', 'NoEpisodes', 'EpisodesWatched', 'Label', 'CoverImage',)
+		fields = ('SeriesName', 'is_multiple_seasons', 'NoEpisodes', 'EpisodesWatched', 'Label', 'CoverImage',)
 		labels = {
 			"SeriesName": "Series Name:",
+			"is_multiple_seasons": "My series contains multiple seasons ",
 			"NoEpisodes": "Number of episodes:",
 			"EpisodesWatched": "Episodes watched:",
 			"Label": "Label:",
@@ -62,12 +63,19 @@ class SeriesForm(forms.ModelForm):
 		# print(cleaned_data) # to see all fields in console
 		# episodes = cleaned_data.get('NoEpisodes')
 		# episodeswatched = cleaned_data.get('EpisodesWatched')
-		episodes = self.cleaned_data['NoEpisodes']
-		episodeswatched = self.cleaned_data['EpisodesWatched']
-		if episodeswatched is None:
-			episodeswatched = 0
-		# print(episodes)
-		# print(episodeswatched)
-		if episodeswatched > episodes or episodes < episodeswatched:
-			raise forms.ValidationError('Error creating series, Episodes watched can\'t be greater than number of episodes')
+		
+		if self.cleaned_data['is_multiple_seasons'] is True:
+			self.cleaned_data['NoEpisodes'] = 0
+			self.cleaned_data['EpisodesWatched'] = 0
+		else:
+			episodes = self.cleaned_data['NoEpisodes']
+			episodeswatched = self.cleaned_data['EpisodesWatched']
+			if episodeswatched is None:
+				episodeswatched = 0
+			# print(episodes)
+			# print(episodeswatched)
+			if episodeswatched > episodes or episodes < episodeswatched:
+				raise forms.ValidationError('Error creating series, Episodes watched can\'t be greater than number of episodes')
+			
+		
 		

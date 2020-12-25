@@ -1,13 +1,26 @@
 /*------------------Series--------------------*/
 #create-series-btn {
-  position: relative;
+  position: absolute;
   left: 50%;
-  top: 34px;
+  top: 100px;
   transform: translate(-50%, -50%);
+}
+#noseries {
+  position: absolute;
+  left: 50%;
+  top: 200px;
+  transform: translate(-50%, -50%);
+}
+#LayoutDropdown {
+  position: absolute;
+  right: 3%;
+  top: 100px;
+  transform: translate(-50%, -50%);
+  z-index: 1;
 }
 #series-root-container {
   position: relative;
-  top: 13%;
+  top: 20%;
   display: grid;
   align-items: center;
   justify-content: center;

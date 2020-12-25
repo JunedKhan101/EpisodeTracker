@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.homeview, name='home'),
 
-    path('series/<slug:slug>', views.EditSeries, name = 'seriespage'),
+    path('series/page/<slug:slug>', views.seriespage, name = 'seriespage'),
 
     path('series/', views.seriesview, name='series'),
     path('series/list', views.serieslistview, name='serieslist'),

@@ -138,6 +138,7 @@ def notfoundview(request):
     return render(request, 'notfound.html', {})
 
 
-def EditSeries(request, slug):
+def seriespage(request, slug):
     slug = Series.objects.filter(slug=slug)
-    return render(request, 'editseries.html', {'slug': slug})
+    series = slug[0]
+    return render(request, 'seriespage.html', {'slug': slug, 'series': series})

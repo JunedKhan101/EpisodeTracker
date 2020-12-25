@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} <title>Edit Series</title> {% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/seriespage.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div id="ImageCover-container">
+  	<img id="CoverImage" src="{{series.CoverImage.url}}" alt="Image">
+  	<h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
+  </div>
+  <hr size="10">
+{% endblock %}

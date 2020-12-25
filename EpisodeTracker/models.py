@@ -35,6 +35,7 @@ class Series(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     SeriesName = models.CharField(max_length=30, default="")
     slug = models.SlugField(unique=True, default='')
+    is_multiple_seasons = models.BooleanField(default=False)
     NoEpisodes = models.PositiveIntegerField(default=0)
     EpisodesWatched = models.PositiveIntegerField(null=True, blank=True, default=0)
     Label = models.CharField(max_length=20, choices=LabelChoices, default="Series")

@@ -7,8 +7,8 @@
 {% block content %}
 <button id="create-series-btn" class="btn btn-primary" data-toggle="modal" data-target="#seriesmodal">Add series</button>
 
-<div class="dropdown" style="position: absolute; right: 10%; top: 10%;">
-  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<div class="dropdown" id="LayoutDropdown">
+  <button id="layout-btn" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Layout
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -46,22 +46,27 @@
 </div>
 
 <div id="series-root-container">
-  {% for series in obj %}
-  <a href="{% url 'seriespage' series.slug %}" style="text-decoration: none;">
-  <div class="series-card">
-   {% if series.CoverImage %}
-   <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Img">
-   {% endif %}
-   <div class="series-container">
-    <p>{{ series.SeriesName }}</p>
-    <p style="position: relative; bottom: 5px;">{{series.EpisodesWatched}}/{{series.NoEpisodes}} Watched</p>
-  </div>
+    {% for series in obj %}
+    <a href="{% url 'seriespage' series.slug %}" style="text-decoration: none;">
+    <div class="series-card">
+     {% if series.CoverImage %}
+     <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Img">
+     {% endif %}
+     <div class="series-container">
+        <p>{{ series.SeriesName }}</p>
+        <p style="position: relative; bottom: 5px;">{{series.EpisodesWatched}}/{{series.NoEpisodes}} Watched</p>
+      </div>
+    </div>
+    </a>
+    {% endfor %}
 </div>
-</a>
-{% endfor %}
+{% if not obj %}
+<div id="noseries">
+  <p>You have no series yet.</p>
 </div>
+{% endif %}
 
-<br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <script>
   `{% if form.non_field_errors %}`
     $("#errormsg").html( `{{ form.non_field_errors|striptags }}` );
@@ -74,5 +79,16 @@
   {% endfor %}
     $("#seriesmodal").modal('show');
   {% endif %}
+
+  document.getElementById("id_is_multiple_seasons").removeAttribute("class");
+  document.getElementById('id_is_multiple_seasons').onchange = function() {
+    document.getElementById('id_NoEpisodes').disabled = this.checked;
+    document.getElementById('id_EpisodesWatched').disabled = this.checked;
+  };
+  $('form').submit(function(e) {
+    $(':disabled').each(function(e) {
+        $(this).removeAttr('disabled');
+    })
+  });
 </script>
 {% endblock %}

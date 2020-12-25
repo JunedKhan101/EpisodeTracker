@@ -2,8 +2,19 @@
 #create-series-btn {
   position: relative;
   left: 50%;
-  top: 34px;
+  top: 50px;
   transform: translate(-50%, -50%);
+}
+#noseries {
+  position: relative;
+  left: 50%;
+  top: 200px;
+  transform: translate(-50%, -50%);
+}
+#LayoutDropdown {
+  position: relative;
+  left: 89%;
+  z-index: 1;
 }
 #series-root-container {
   position: relative;
