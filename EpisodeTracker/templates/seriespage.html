@@ -10,5 +10,15 @@
   	<img id="CoverImage" src="{{series.CoverImage.url}}" alt="Image">
   	<h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
   </div>
-  <hr size="10">
+  <hr class="bottom-border">
+
+  <button class="btn btn-primary" id="add-season-button">Add a season</button>
+
+  <div id="season-container">
+  	{% for season in seasons %}
+  	<div id="season">
+  		<p id="season-name">{{season.SeasonName}}</p>
+  	</div>
+  	{% endfor %}
+  </div>
 {% endblock %}

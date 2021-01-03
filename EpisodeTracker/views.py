@@ -141,4 +141,5 @@ def notfoundview(request):
 def seriespage(request, slug):
     slug = Series.objects.filter(slug=slug)
     series = slug[0]
-    return render(request, 'seriespage.html', {'slug': slug, 'series': series})
+    seasons = series.seasons_set.all()
+    return render(request, 'seriespage.html', {'slug': slug, 'series': series, 'seasons': seasons})

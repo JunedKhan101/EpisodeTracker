@@ -70,4 +70,14 @@ def pre_save_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_receiver, sender=Series)
 
 class Seasons(models.Model):
-    pass
+    Series = models.ForeignKey(Series, on_delete=models.CASCADE)
+    SeasonName = models.CharField(max_length=30, default="")
+    NoEpisodes = models.PositiveIntegerField(default=0)
+    EpisodesWatched = models.PositiveIntegerField(null=True, blank=True, default=0)
+    DateCreated = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return self.SeasonName
+
+    class Meta:
+        verbose_name_plural = "Seasons"
