@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, AuthenticationForm
-from EpisodeTracker.forms import SignUpForm, EditProfileForm, SeriesForm
+from EpisodeTracker.forms import SignUpForm, EditProfileForm, SeriesForm, SeasonsForm
 from django.core.mail import send_mail
 from .models import Series
 # Create your views here.
@@ -137,9 +137,21 @@ def reportview(request):
 def notfoundview(request):
     return render(request, 'notfound.html', {})
 
-
 def seriespage(request, slug):
     slug = Series.objects.filter(slug=slug)
     series = slug[0]
     seasons = series.seasons_set.all()
-    return render(request, 'seriespage.html', {'slug': slug, 'series': series, 'seasons': seasons})
+
+    form = SeasonsForm(request.POST or None)
+
+    if request.method == 'POST':
+        form = SeasonsForm(request.POST)
+        if form.is_valid():
+            episodeswatched = form.cleaned_data['EpisodesWatched']
+            if episodeswatched == None:
+                messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                return HttpResponseRedirect('/series/')
+            instance = form.save()
+            instance.user = request.user
+            instance.save()
+    return render(request, 'seriespage.html', {'form': form, 'slug': slug, 'series': series, 'seasons': seasons})

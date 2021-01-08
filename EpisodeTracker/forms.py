@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Series
+from .models import Series, Seasons
 from django.conf import settings
 
 class DateInput(forms.DateInput):
@@ -76,6 +76,26 @@ class SeriesForm(forms.ModelForm):
 			# print(episodeswatched)
 			if episodeswatched > episodes or episodes < episodeswatched:
 				raise forms.ValidationError('Error creating series, Episodes watched can\'t be greater than number of episodes')
-			
-		
-		
+
+class SeasonsForm(forms.ModelForm):
+	class Meta:
+		model = Seasons
+		fields = ('SeasonName', 'NoEpisodes', 'EpisodesWatched',)
+		labels = {
+			"SeasonName": "Season Name:",
+			"NoEpisodes": "Number of episodes:",
+			"EpisodesWatched": "Episodes watched:",
+		}
+
+	def __init__(self, *args, **kwargs):
+		super(SeasonsForm, self).__init__(*args, **kwargs)
+		for visible in self.visible_fields():
+			visible.field.widget.attrs['class'] = 'form-control'
+
+	def clean(self):
+		episodes = self.cleaned_data['NoEpisodes']
+		episodeswatched = self.cleaned_data['EpisodesWatched']
+		if episodeswatched is None:
+			episodeswatched = 0
+		if episodeswatched > episodes or episodes < episodeswatched:
+			raise forms.ValidationError('Error creating series, Episodes watched can\'t be greater than number of episodes')

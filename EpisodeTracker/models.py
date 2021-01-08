@@ -72,6 +72,7 @@ pre_save.connect(pre_save_receiver, sender=Series)
 class Seasons(models.Model):
     Series = models.ForeignKey(Series, on_delete=models.CASCADE)
     SeasonName = models.CharField(max_length=30, default="")
+    slug = models.SlugField(unique=True, default='')
     NoEpisodes = models.PositiveIntegerField(default=0)
     EpisodesWatched = models.PositiveIntegerField(null=True, blank=True, default=0)
     DateCreated = models.DateField(default=timezone.now)
@@ -81,3 +82,11 @@ class Seasons(models.Model):
 
     class Meta:
         verbose_name_plural = "Seasons"
+
+    def get_absolute_url(self):
+        return reverse('seasonspage', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        value = self.SeasonName
+        self.slug = slugify(value, allow_unicode=True)
+        super().save(*args, **kwargs)
