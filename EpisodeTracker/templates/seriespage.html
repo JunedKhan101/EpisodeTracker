@@ -6,9 +6,14 @@
 {% endblock %}
 
 {% block content %}
+{% with series_slug=series.slug %} 
   <div id="ImageCover-container">
-  	<img id="CoverImage" src="{{series.CoverImage.url}}" alt="Image">
-  	<h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
+    {% if series.CoverImage.name == '/noimg.png' %}
+      <h1 id="CoverImage-SeriesName" style="color: black;">{{series.SeriesName}}</h1>
+    {% else %}
+      <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Image">
+      <h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
+    {% endif %}
   </div>
   <hr class="bottom-border">
 
@@ -41,14 +46,16 @@
   </div>
   </div>
 
-  <div id="season-container">
+    <div id="season-container">
   	{% for season in seasons %}
-  	<div id="season">
-  		<p id="season-name">{{season.SeasonName}}</p>
-  	</div>
+    <a href="{% url 'seasonspage' series.slug season.slug %}">
+    	<div id="season">
+    		<p id="season-name">{{season.SeasonName}}</p>
+    	</div>
+    </a>
   	{% endfor %}
   </div>
-
+  {% endwith %}
 <script>
   `{% if form.non_field_errors %}`
     $("#errormsg").html( `{{ form.non_field_errors|striptags }}` );
@@ -62,4 +69,5 @@
     $("#seriesmodal").modal('show');
   {% endif %}
 </script>
+<br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endblock %}

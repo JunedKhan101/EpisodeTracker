@@ -7,7 +7,8 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, Auth
 from EpisodeTracker.forms import SignUpForm, EditProfileForm, SeriesForm, SeasonsForm
 from django.core.mail import send_mail
 from .models import Series
-# Create your views here.
+from django.shortcuts import get_object_or_404
+
 def homeview(request):
 	return render(request, "index.html", {})
 
@@ -143,7 +144,7 @@ def seriespage(request, slug):
     seasons = series.seasons_set.all()
 
     form = SeasonsForm(request.POST or None)
-
+    series = get_object_or_404(Series, pk=series.pk)
     if request.method == 'POST':
         form = SeasonsForm(request.POST)
         if form.is_valid():
@@ -151,7 +152,16 @@ def seriespage(request, slug):
             if episodeswatched == None:
                 messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
                 return HttpResponseRedirect('/series/')
-            instance = form.save()
-            instance.user = request.user
+            instance = form.save(commit=False)
+            instance.Series = series
             instance.save()
+    else:
+        form = SeasonsForm()
     return render(request, 'seriespage.html', {'form': form, 'slug': slug, 'series': series, 'seasons': seasons})
+
+def seasonspage(request, series_slug, season_slug):
+    series = Series.objects.filter(slug = series_slug)
+    series = series[0]
+    seasons = series.seasons_set.filter(slug=season_slug)
+    season = seasons[0]
+    return render(request, 'seasons.html', {'series': series, 'season': season})

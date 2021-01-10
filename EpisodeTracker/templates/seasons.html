@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} <title>Edit Series</title> {% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/seasons.css' %}">
+{% endblock %}
+
+{% block content %}
+	<h1>NoEpisodes: {{season.NoEpisodes}}</h1>
+	<h1>EpisodesWatched: {{season.EpisodesWatched}}</h1>
+{% endblock %}

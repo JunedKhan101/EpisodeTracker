@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 
+# Users
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birth_date = models.DateField(null=True, blank=True)
@@ -24,6 +25,8 @@ def create_user_profile(sender, instance, created, **kwargs):
     except ObjectDoesNotExist:
         Profile.objects.create(user=instance)
 
+
+# Series
 LabelChoices = (
     ("1", "Series"),
     ("2", "Movie"),
@@ -69,10 +72,11 @@ def pre_save_receiver(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_receiver, sender=Series)
 
+# Seasons
 class Seasons(models.Model):
     Series = models.ForeignKey(Series, on_delete=models.CASCADE)
     SeasonName = models.CharField(max_length=30, default="")
-    slug = models.SlugField(unique=True, default='')
+    slug = models.SlugField(default='')
     NoEpisodes = models.PositiveIntegerField(default=0)
     EpisodesWatched = models.PositiveIntegerField(null=True, blank=True, default=0)
     DateCreated = models.DateField(default=timezone.now)
@@ -89,4 +93,4 @@ class Seasons(models.Model):
     def save(self, *args, **kwargs):
         value = self.SeasonName
         self.slug = slugify(value, allow_unicode=True)
-        super().save(*args, **kwargs)
+        super(Seasons, self).save(*args, **kwargs)
