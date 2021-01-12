@@ -43,6 +43,11 @@
 	left: 70%;
 	transform: translate(-50%, -50%);	
 }
+#edit-series-button-only {
+	position: relative;
+	left: 50%;
+	transform: translate(-50%, -50%);	
+}
 #season-container {
 	position: relative;
 	top: 20%;

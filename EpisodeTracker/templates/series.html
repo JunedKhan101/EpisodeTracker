@@ -53,7 +53,10 @@
      {% endif %}
      <div class="series-container">
         <p>{{ series.SeriesName }}</p>
-        <p style="position: relative; bottom: 5px;">{{series.EpisodesWatched}}/{{series.NoEpisodes}} Watched</p>
+        <p style="position: relative; bottom: 5px;">
+          {% if not series.is_multiple_seasons %}
+            {{series.EpisodesWatched}}/{{series.NoEpisodes}} Watched</p>
+          {% endif %}
       </div>
     </div>
     </a>
