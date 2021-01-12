@@ -164,7 +164,7 @@ def seriespage(request, slug):
             if seasonform.is_valid():
                 episodeswatched = seasonform.cleaned_data['EpisodesWatched']
                 if episodeswatched == None:
-                    messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                    messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes", extra_tags='season')
                     return HttpResponseRedirect('/series/%s' % slug)
                 instance = seasonform.save(commit=False)
                 instance.Series = series
@@ -175,7 +175,7 @@ def seriespage(request, slug):
             if seriesform.is_valid():
                 episodeswatched = seriesform.cleaned_data['EpisodesWatched']
                 if episodeswatched == None:
-                    messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                    messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes", extra_tags='series')
                     return HttpResponseRedirect('/series/')
                 instance = seriesform.save()
                 instance.user = request.user

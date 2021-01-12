@@ -32,11 +32,11 @@
   {% endif %}
 
   <!-- Series Modal -->
-  <div class="modal fade" id="editseriesmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade" id="editseriesmodal" tabindex="-1" role="dialog" aria-labelledby="SeriesModal" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="width: 40%;">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Edit Series</h5>
+        <h5 class="modal-title" id="series-title">Edit Series</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -46,8 +46,7 @@
           {% for field in seriesform %}
           {{ field.label_tag }} {{ field }}<br>
           {% endfor %}
-          <strong id="errormsg" style="color: red;">
-         </strong>
+          <strong id="errormsg" style="color: red;"></strong>
        </form>
      </div>
      <div class="modal-footer">
@@ -59,11 +58,11 @@
 </div>
 
   <!-- Season Modal -->
-  <div class="modal fade" id="seasonmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade" id="seasonmodal" tabindex="-1" role="dialog" aria-labelledby="SeasonModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Add season</h5>
+          <h5 class="modal-title" id="season-title">Add season</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -95,12 +94,20 @@
   </div>
   {% endwith %}
 
-
+  <!-- {% if not series.is_multiple_seasons %}
+    <div>
+      <ul>
+        <li>
+          <a href="#"></a>
+        </li>
+      </ul>
+    </div>
+  {% endif %} -->
 <script>
-  `{% if seriesform.non_field_errors %}`
-    $("#errormsg").html( `{{ seriesform.non_field_errors|striptags }}` );
-    $("#editseriesmodal").modal('show');
-  `{% endif %}`
+  // `{% if seriesform.non_field_errors %}`
+  //   $("#errormsg").html( `{{ seriesform.non_field_errors|striptags }}` );
+  //   $("#editseriesmodal").modal('show');
+  // `{% endif %}`
 
   if (document.getElementById("id_is_multiple_seasons").checked == true) {
     document.getElementById('id_NoEpisodes').disabled = true;
@@ -114,10 +121,22 @@
   `{% endif %}`
 
   {% if messages %}
-  {% for msg in messages %}
-    $("#error").html(`{{ msg }}`);
-  {% endfor %}
-    $("#seasonmodal").modal('show');
+    {% for msg in messages %}
+      {% if 'series' in msg.tags %}
+        $("#errormsg").html(`{{ msg }}`);
+      {% endif %}
+    {% endfor %}
+  $("#editseriesmodal").modal('show');
+  {% endif %}
+
+  {% if messages %}
+    {% for msg in messages %}
+      {% if 'season' in msg.tags %}
+        $("#error").html(`{{ msg }}`);
+        $("#seasonmodal").modal('show');
+      {% endif %}
+    {% endfor %}
+  $("#seasonmodal").modal('show');
   {% endif %}
 
   document.getElementById("id_is_multiple_seasons").removeAttribute("class");
