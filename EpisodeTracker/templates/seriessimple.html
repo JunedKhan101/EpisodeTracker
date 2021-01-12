@@ -32,14 +32,13 @@
         	{% for field in form %}
         	{{ field.label_tag }} {{ field }}<br>
         	{% endfor %}
-
         	<strong id="errormsg" style="color: red;">
          </strong>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" form="SeriesForm">Create</button>
+        <button type="submit" name="series" class="btn btn-primary" form="SeriesForm">Create</button>
       </div>
     </div>
   </div>

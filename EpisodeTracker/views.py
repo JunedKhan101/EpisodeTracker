@@ -139,25 +139,61 @@ def notfoundview(request):
     return render(request, 'notfound.html', {})
 
 def seriespage(request, slug):
-    slug = Series.objects.filter(slug=slug)
-    series = slug[0]
+    series = Series.objects.filter(slug=slug)
+    series = series[0]
     seasons = series.seasons_set.all()
 
-    form = SeasonsForm(request.POST or None)
-    series = get_object_or_404(Series, pk=series.pk)
+    TotalEpisodes = 0
+    TotalEpisodesWatched = 0
+    for i in seasons:
+        TotalEpisodes += i.NoEpisodes
+        TotalEpisodesWatched += i.EpisodesWatched
+
+    try:
+        progress_percentage = round((TotalEpisodesWatched / TotalEpisodes) * 100);
+    except ZeroDivisionError:
+        progress_percentage = 0
+
+    seasonform = SeasonsForm(request.POST or None)
+    seriesform = SeriesForm(request.POST or None)
+    series = get_object_or_404(Series, pk = series.pk)
+
     if request.method == 'POST':
-        form = SeasonsForm(request.POST)
-        if form.is_valid():
-            episodeswatched = form.cleaned_data['EpisodesWatched']
-            if episodeswatched == None:
-                messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
-                return HttpResponseRedirect('/series/')
-            instance = form.save(commit=False)
-            instance.Series = series
-            instance.save()
+        if 'season' in request.POST:
+            seasonform = SeasonsForm(request.POST)
+            if seasonform.is_valid():
+                episodeswatched = seasonform.cleaned_data['EpisodesWatched']
+                if episodeswatched == None:
+                    messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                    return HttpResponseRedirect('/series/%s' % slug)
+                instance = seasonform.save(commit=False)
+                instance.Series = series
+                instance.save()
+                return HttpResponseRedirect('/series/%s' % slug)
+        elif 'series' in request.POST:
+            seriesform = SeriesForm(request.POST, request.FILES, instance=series)
+            if seriesform.is_valid():
+                episodeswatched = seriesform.cleaned_data['EpisodesWatched']
+                if episodeswatched == None:
+                    messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                    return HttpResponseRedirect('/series/')
+                instance = seriesform.save()
+                instance.user = request.user
+                instance.save()
+                return HttpResponseRedirect('/series/%s' % slug)
     else:
-        form = SeasonsForm()
-    return render(request, 'seriespage.html', {'form': form, 'slug': slug, 'series': series, 'seasons': seasons})
+        seasonform = SeasonsForm()
+        seriesform = SeriesForm(instance=series)
+
+    data =  {
+    'seasonform': seasonform, 
+    'seriesform': seriesform,
+    'slug': slug, 
+    'series': series, 
+    'seasons': seasons,
+    'percent': progress_percentage,
+    }
+    return render(request, 'seriespage.html', data)
 
 def seasonspage(request, series_slug, season_slug):
     series = Series.objects.filter(slug = series_slug)

@@ -2,25 +2,60 @@
 {% load static %}
 {% block title %} <title>Edit Series</title> {% endblock %}
 {% block style %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <link rel="stylesheet" href="{% static 'css/seriespage.css' %}">
 {% endblock %}
 
 {% block content %}
 {% with series_slug=series.slug %} 
   <div id="ImageCover-container">
-    {% if series.CoverImage.name == '/noimg.png' %}
+    {% if series.CoverImage.name == '/noimg.png' or not series.CoverImage %}
       <h1 id="CoverImage-SeriesName" style="color: black;">{{series.SeriesName}}</h1>
-    {% else %}
+    {% elif series.CoverImage %}
       <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Image">
       <h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
     {% endif %}
   </div>
-  <hr class="bottom-border">
+  <hr id="bottom-border">
+  <div id="progress">
+    <p>You have watched:</p>
+    <div class="progress" style="height: 20px;">
+      <div class="progress-bar" role="progressbar" style="width: {{percent}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{percent}}%</div>
+    </div>
+  </div>
+  <br /><br />
+  <button class="btn btn-primary" id="add-season-button" data-toggle="modal" data-target="#seasonmodal">Add a season</button>
+  <button class="btn btn-primary" id="edit-series-button" data-toggle="modal" data-target="#editseriesmodal">Edit Series</button>
 
-  <button class="btn btn-primary" id="add-season-button" data-toggle="modal" data-target="#seriesmodal">Add a season</button>
+  <!-- Series Modal -->
+  <div class="modal fade" id="editseriesmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="width: 40%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit Series</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" id="SeriesForm" enctype="multipart/form-data"> {% csrf_token %}
+          {% for field in seriesform %}
+          {{ field.label_tag }} {{ field }}<br>
+          {% endfor %}
+          <strong id="errormsg" style="color: red;">
+         </strong>
+       </form>
+     </div>
+     <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="submit" name="series" class="btn btn-primary" form="SeriesForm">Save Changes</button>
+    </div>
+  </div>
+</div>
+</div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="seriesmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <!-- Season Modal -->
+  <div class="modal fade" id="seasonmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -31,24 +66,23 @@
         </div>
         <div class="modal-body">
           <form method="POST" id="SeasonsForm"> {% csrf_token %}
-            {% for field in form %}
+            {% for field in seasonform %}
             {{ field.label_tag }} {{ field }}<br>
             {% endfor %}
-            <strong id="errormsg" style="color: red;">
-           </strong>
+            <strong id="error" style="color: red;"></strong>
          </form>
        </div>
        <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" form="SeasonsForm">Add</button>
+        <button type="submit" name="season" class="btn btn-primary" form="SeasonsForm">Add</button>
       </div>
     </div>
   </div>
   </div>
 
-    <div id="season-container">
+  <div id="season-container">
   	{% for season in seasons %}
-    <a href="{% url 'seasonspage' series.slug season.slug %}">
+    <a href="{% url 'seasonspage' series.slug season.slug %}" style="text-decoration: none;">
     	<div id="season">
     		<p id="season-name">{{season.SeasonName}}</p>
     	</div>
@@ -56,18 +90,59 @@
   	{% endfor %}
   </div>
   {% endwith %}
+
+
 <script>
-  `{% if form.non_field_errors %}`
-    $("#errormsg").html( `{{ form.non_field_errors|striptags }}` );
-    $("#seriesmodal").modal('show');
+  `{% if seriesform.non_field_errors %}`
+    $("#errormsg").html( `{{ seriesform.non_field_errors|striptags }}` );
+    $("#editseriesmodal").modal('show');
+  `{% endif %}`
+
+  if (document.getElementById("id_is_multiple_seasons").checked == true) {
+    document.getElementById('id_NoEpisodes').disabled = true;
+    document.getElementById('id_EpisodesWatched').disabled = true;
+  }
+</script>
+<script>
+  `{% if seasonform.non_field_errors %}`
+    $("#error").html( `{{ seasonform.non_field_errors|striptags }}` );
+    $("#seasonmodal").modal('show');
   `{% endif %}`
 
   {% if messages %}
   {% for msg in messages %}
-    $("#errormsg").html( `{{ msg }}` );
+    $("#error").html(`{{ msg }}`);
   {% endfor %}
-    $("#seriesmodal").modal('show');
+    $("#seasonmodal").modal('show');
   {% endif %}
+
+  document.getElementById("id_is_multiple_seasons").removeAttribute("class");
+  document.getElementById('id_is_multiple_seasons').onchange = function() {
+    document.getElementById('id_NoEpisodes').disabled = this.checked;
+    document.getElementById('id_EpisodesWatched').disabled = this.checked;
+  };
+  $('form').submit(function(e) {
+    $(':disabled').each(function(e) {
+        $(this).removeAttr('disabled');
+    })
+  });
+
+  const colorThief = new ColorThief();
+  const img = document.getElementById('CoverImage');
+  const hr = document.getElementById('bottom-border');
+
+  // Make sure image is finished loading
+  if (img.complete) {
+    var rgb = colorThief.getColor(img);
+    //console.log(`rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`);
+    hr.style.color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+  } else {
+    image.addEventListener('load', function() {
+      var rgb = colorThief.getColor(img);
+      //console.log(`rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`);
+      hr.style.color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+    });
+  }
 </script>
 <br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endblock %}

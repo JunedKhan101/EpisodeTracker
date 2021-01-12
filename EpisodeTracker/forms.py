@@ -63,7 +63,6 @@ class SeriesForm(forms.ModelForm):
 		# print(cleaned_data) # to see all fields in console
 		# episodes = cleaned_data.get('NoEpisodes')
 		# episodeswatched = cleaned_data.get('EpisodesWatched')
-		
 		if self.cleaned_data['is_multiple_seasons'] is True:
 			self.cleaned_data['NoEpisodes'] = 0
 			self.cleaned_data['EpisodesWatched'] = 0
@@ -72,8 +71,6 @@ class SeriesForm(forms.ModelForm):
 			episodeswatched = self.cleaned_data['EpisodesWatched']
 			if episodeswatched is None:
 				episodeswatched = 0
-			# print(episodes)
-			# print(episodeswatched)
 			if episodeswatched > episodes or episodes < episodeswatched:
 				raise forms.ValidationError('Error creating series, Episodes watched can\'t be greater than number of episodes')
 

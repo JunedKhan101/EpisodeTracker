@@ -38,7 +38,7 @@
      </div>
      <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="submit" class="btn btn-primary" form="SeriesForm">Create</button>
+      <button type="submit" name="series" class="btn btn-primary" form="SeriesForm">Create</button>
     </div>
   </div>
 </div>
@@ -84,6 +84,10 @@
     document.getElementById('id_NoEpisodes').disabled = this.checked;
     document.getElementById('id_EpisodesWatched').disabled = this.checked;
   };
+  if (document.getElementById("id_is_multiple_seasons").checked == true) {
+    document.getElementById('id_NoEpisodes').disabled = true;
+    document.getElementById('id_EpisodesWatched').disabled = true;
+  }
   $('form').submit(function(e) {
     $(':disabled').each(function(e) {
         $(this).removeAttr('disabled');
