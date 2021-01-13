@@ -145,9 +145,13 @@ def seriespage(request, slug):
 
     TotalEpisodes = 0
     TotalEpisodesWatched = 0
-    for i in seasons:
-        TotalEpisodes += i.NoEpisodes
-        TotalEpisodesWatched += i.EpisodesWatched
+    if series.is_multiple_seasons == True:
+        for i in seasons:
+            TotalEpisodes += i.NoEpisodes
+            TotalEpisodesWatched += i.EpisodesWatched
+    else:
+        TotalEpisodes = series.NoEpisodes
+        TotalEpisodesWatched = series.EpisodesWatched
 
     try:
         progress_percentage = round((TotalEpisodesWatched / TotalEpisodes) * 100);

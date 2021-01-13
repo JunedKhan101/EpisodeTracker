@@ -43,8 +43,8 @@
       </div>
       <div class="modal-body">
         <form method="POST" id="SeriesForm" enctype="multipart/form-data"> {% csrf_token %}
-          {% for field in seriesform %}
-          {{ field.label_tag }} {{ field }}<br>
+          {% for seriesfield in seriesform %}
+          {{ seriesfield.label_tag }} {{ seriesfield }}<br>
           {% endfor %}
           <strong id="errormsg" style="color: red;"></strong>
        </form>
@@ -54,8 +54,8 @@
       <button type="submit" name="series" class="btn btn-primary" form="SeriesForm">Save Changes</button>
     </div>
   </div>
-</div>
-</div>
+  </div>
+  </div>
 
   <!-- Season Modal -->
   <div class="modal fade" id="seasonmodal" tabindex="-1" role="dialog" aria-labelledby="SeasonModal" aria-hidden="true">
@@ -69,8 +69,8 @@
         </div>
         <div class="modal-body">
           <form method="POST" id="SeasonsForm"> {% csrf_token %}
-            {% for field in seasonform %}
-            {{ field.label_tag }} {{ field }}<br>
+            {% for seasonfield in seasonform %}
+            {{ seasonfield.label_tag }} {{ seasonfield }}<br>
             {% endfor %}
             <strong id="error" style="color: red;"></strong>
          </form>
