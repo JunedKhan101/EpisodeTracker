@@ -124,9 +124,9 @@
     {% for msg in messages %}
       {% if 'series' in msg.tags %}
         $("#errormsg").html(`{{ msg }}`);
+        $("#editseriesmodal").modal('show');
       {% endif %}
     {% endfor %}
-  $("#editseriesmodal").modal('show');
   {% endif %}
 
   {% if messages %}
@@ -136,7 +136,6 @@
         $("#seasonmodal").modal('show');
       {% endif %}
     {% endfor %}
-  $("#seasonmodal").modal('show');
   {% endif %}
 
   document.getElementById("id_is_multiple_seasons").removeAttribute("class");

@@ -59,11 +59,12 @@ class SeriesForm(forms.ModelForm):
 			visible.field.widget.attrs['class'] = 'form-control'
 
 	def clean(self):
-		# cleaned_data = super().clean()
+		cleaned_data = super(SeriesForm, self).clean()
 		# print(cleaned_data) # to see all fields in console
 		# episodes = cleaned_data.get('NoEpisodes')
 		# episodeswatched = cleaned_data.get('EpisodesWatched')
-		if self.cleaned_data['is_multiple_seasons'] is True:
+		print('Series clean method')
+		if self.cleaned_data['is_multiple_seasons'] is True:	# just for safety
 			self.cleaned_data['NoEpisodes'] = 0
 			self.cleaned_data['EpisodesWatched'] = 0
 		else:
@@ -90,6 +91,8 @@ class SeasonsForm(forms.ModelForm):
 			visible.field.widget.attrs['class'] = 'form-control'
 
 	def clean(self):
+		print('Season clean method')
+		cleaned_data = super(SeasonsForm, self).clean()
 		episodes = self.cleaned_data['NoEpisodes']
 		episodeswatched = self.cleaned_data['EpisodesWatched']
 		if episodeswatched is None:

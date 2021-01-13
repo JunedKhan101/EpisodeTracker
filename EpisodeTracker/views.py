@@ -164,6 +164,7 @@ def seriespage(request, slug):
 
     if request.method == 'POST':
         if 'season' in request.POST:
+            print('Inside season view')
             seasonform = SeasonsForm(request.POST)
             if seasonform.is_valid():
                 episodeswatched = seasonform.cleaned_data['EpisodesWatched']
@@ -174,7 +175,9 @@ def seriespage(request, slug):
                 instance.Series = series
                 instance.save()
                 return HttpResponseRedirect('/series/%s' % slug)
+                
         elif 'series' in request.POST:
+            print('Inside series view')
             seriesform = SeriesForm(request.POST, request.FILES, instance=series)
             if seriesform.is_valid():
                 episodeswatched = seriesform.cleaned_data['EpisodesWatched']
