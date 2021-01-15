@@ -175,6 +175,8 @@ def seriespage(request, slug):
                 instance.Series = series
                 instance.save()
                 return HttpResponseRedirect('/series/%s' % slug)
+            else:
+                pass
                 
         elif 'series' in request.POST:
             print('Inside series view')

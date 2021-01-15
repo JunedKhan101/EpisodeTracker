@@ -149,6 +149,11 @@
     })
   });
 
+  $('#seasonmodal').on('hidden.bs.modal', function () {
+    window.location.reload();
+    window.location.href = window.location.href;
+  });
+
   const colorThief = new ColorThief();
   const img = document.getElementById('CoverImage');
   const hr = document.getElementById('bottom-border');
