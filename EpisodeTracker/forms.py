@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Authenti
 from django.contrib.auth.models import User
 from .models import Series, Seasons
 from django.conf import settings
+from django.utils.translation import ugettext as _
 
 class DateInput(forms.DateInput):
 	input_type = 'date'
@@ -64,25 +65,30 @@ class SeriesForm(forms.ModelForm):
 		# episodes = cleaned_data.get('NoEpisodes')
 		# episodeswatched = cleaned_data.get('EpisodesWatched')
 		print('Series clean method')
-		if self.cleaned_data['is_multiple_seasons'] is True:	# just for safety
-			self.cleaned_data['NoEpisodes'] = 0
-			self.cleaned_data['EpisodesWatched'] = 0
-		else:
-			episodes = self.cleaned_data['NoEpisodes']
-			episodeswatched = self.cleaned_data['EpisodesWatched']
-			if episodeswatched is None:
-				episodeswatched = 0
-			if episodeswatched > episodes or episodes < episodeswatched:
-				raise forms.ValidationError('Error creating series, Episodes watched can\'t be greater than number of episodes')
+		try:
+			if self.cleaned_data['is_multiple_seasons'] is True:	# just for safety
+				self.cleaned_data['NoEpisodes'] = 0
+				self.cleaned_data['EpisodesWatched'] = 0
+			else:
+				episodes = self.cleaned_data['NoEpisodes']
+				episodeswatched = self.cleaned_data['EpisodesWatched']
+				if episodeswatched is None:
+					episodeswatched = 0
+				if episodeswatched > episodes or episodes < episodeswatched:
+					raise forms.ValidationError(
+						_('Error creating series, Episodes watched can\'t be greater than number of episodes'),
+						code='series')
+		except KeyError:
+			pass
 
 class SeasonsForm(forms.ModelForm):
 	class Meta:
 		model = Seasons
-		fields = ('SeasonName', 'NoEpisodes', 'EpisodesWatched',)
+		fields = ('SeasonName', 'SeasonNoEpisodes', 'SeasonEpisodesWatched',)
 		labels = {
 			"SeasonName": "Season Name:",
-			"NoEpisodes": "Number of episodes:",
-			"EpisodesWatched": "Episodes watched:",
+			"SeasonNoEpisodes": "Number of episodes:",
+			"SeasonEpisodesWatched": "Episodes watched:",
 		}
 
 	def __init__(self, *args, **kwargs):
@@ -93,9 +99,11 @@ class SeasonsForm(forms.ModelForm):
 	def clean(self):
 		print('Season clean method')
 		cleaned_data = super(SeasonsForm, self).clean()
-		episodes = self.cleaned_data['NoEpisodes']
-		episodeswatched = self.cleaned_data['EpisodesWatched']
+		episodes = self.cleaned_data['SeasonNoEpisodes']
+		episodeswatched = self.cleaned_data['SeasonEpisodesWatched']
 		if episodeswatched is None:
 			episodeswatched = 0
 		if episodeswatched > episodes or episodes < episodeswatched:
-			raise forms.ValidationError('Error creating series, Episodes watched can\'t be greater than number of episodes')
+			raise forms.ValidationError(
+				_('Error creating series, Episodes watched can\'t be greater than number of episodes'),
+				code='seasons')

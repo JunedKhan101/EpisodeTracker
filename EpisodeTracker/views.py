@@ -147,8 +147,8 @@ def seriespage(request, slug):
     TotalEpisodesWatched = 0
     if series.is_multiple_seasons == True:
         for i in seasons:
-            TotalEpisodes += i.NoEpisodes
-            TotalEpisodesWatched += i.EpisodesWatched
+            TotalEpisodes += i.SeasonNoEpisodes
+            TotalEpisodesWatched += i.SeasonEpisodesWatched
     else:
         TotalEpisodes = series.NoEpisodes
         TotalEpisodesWatched = series.EpisodesWatched
@@ -167,7 +167,7 @@ def seriespage(request, slug):
             print('Inside season view')
             seasonform = SeasonsForm(request.POST)
             if seasonform.is_valid():
-                episodeswatched = seasonform.cleaned_data['EpisodesWatched']
+                episodeswatched = seasonform.cleaned_data['SeasonEpisodesWatched']
                 if episodeswatched == None:
                     messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes", extra_tags='season')
                     return HttpResponseRedirect('/series/%s' % slug)
@@ -175,8 +175,6 @@ def seriespage(request, slug):
                 instance.Series = series
                 instance.save()
                 return HttpResponseRedirect('/series/%s' % slug)
-            else:
-                pass
                 
         elif 'series' in request.POST:
             print('Inside series view')

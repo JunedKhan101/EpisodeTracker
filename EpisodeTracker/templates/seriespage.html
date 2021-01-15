@@ -46,7 +46,19 @@
           {% for seriesfield in seriesform %}
           {{ seriesfield.label_tag }} {{ seriesfield }}<br>
           {% endfor %}
-          <strong id="errormsg" style="color: red;"></strong>
+          <strong id="errormsg" style="color: red;">
+            {% if seriesform.errors %}
+                {% for field in seriesform %}
+                  {% for error in field.errors %}
+                      {{ error|escape }}
+                  {% endfor %}
+                {% endfor %}
+              {% for error in seriesform.non_field_errors %}
+                {{ error|escape }}
+                <script>$("#editseriesmodal").modal('show');</script>
+              {% endfor %}
+            {% endif %}
+          </strong>
        </form>
      </div>
      <div class="modal-footer">
@@ -72,7 +84,19 @@
             {% for seasonfield in seasonform %}
             {{ seasonfield.label_tag }} {{ seasonfield }}<br>
             {% endfor %}
-            <strong id="error" style="color: red;"></strong>
+            <strong id="error" style="color: red;">
+              {% if seasonform.errors %}
+                {% for field in seasonform %}
+                  {% for error in field.errors %}
+                      {{ error|escape }}
+                  {% endfor %}
+                {% endfor %}
+              {% for error in seasonform.non_field_errors %}
+                {{ error|escape }}
+                <script>$("#seasonmodal").modal('show');</script>
+              {% endfor %}
+              {% endif %}
+            </strong>
          </form>
        </div>
        <div class="modal-footer">
@@ -114,11 +138,12 @@
     document.getElementById('id_EpisodesWatched').disabled = true;
   }
 </script>
+
 <script>
-  `{% if seasonform.non_field_errors %}`
-    $("#error").html( `{{ seasonform.non_field_errors|striptags }}` );
-    $("#seasonmodal").modal('show');
-  `{% endif %}`
+  // `{% if seasonform.non_field_errors %}`
+  //   $("#error").html( `{{ seasonform.non_field_errors|striptags }}` );
+  //   $("#seasonmodal").modal('show');
+  // `{% endif %}`
 
   {% if messages %}
     {% for msg in messages %}
@@ -136,7 +161,7 @@
         $("#seasonmodal").modal('show');
       {% endif %}
     {% endfor %}
-  {% endif %}
+  {% endif %} 
 
   document.getElementById("id_is_multiple_seasons").removeAttribute("class");
   document.getElementById('id_is_multiple_seasons').onchange = function() {

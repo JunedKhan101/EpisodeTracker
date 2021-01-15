@@ -77,8 +77,8 @@ class Seasons(models.Model):
     Series = models.ForeignKey(Series, on_delete=models.CASCADE)
     SeasonName = models.CharField(max_length=30, default="")
     slug = models.SlugField(default='')
-    NoEpisodes = models.PositiveIntegerField(default=0)
-    EpisodesWatched = models.PositiveIntegerField(null=True, blank=True, default=0)
+    SeasonNoEpisodes = models.PositiveIntegerField(default=0)
+    SeasonEpisodesWatched = models.PositiveIntegerField(null=True, blank=True, default=0)
     DateCreated = models.DateField(default=timezone.now)
 
     def __str__(self):
