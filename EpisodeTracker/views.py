@@ -138,6 +138,12 @@ def reportview(request):
 def notfoundview(request):
     return render(request, 'notfound.html', {})
 
+def createList(val):
+    mylist = []
+    for i in range(1, val + 1):
+        mylist.append(i)
+    return mylist
+
 def seriespage(request, slug):
     series = Series.objects.filter(slug=slug)
     series = series[0]
@@ -145,6 +151,8 @@ def seriespage(request, slug):
 
     TotalEpisodes = 0
     TotalEpisodesWatched = 0
+    ListTotalEpisodes = list()
+    ListTotalEpisodesWatched = list()
     if series.is_multiple_seasons == True:
         for i in seasons:
             TotalEpisodes += i.SeasonNoEpisodes
@@ -152,6 +160,8 @@ def seriespage(request, slug):
     else:
         TotalEpisodes = series.NoEpisodes
         TotalEpisodesWatched = series.EpisodesWatched
+        ListTotalEpisodes = createList(TotalEpisodes)
+        ListTotalEpisodesWatched = createList(TotalEpisodesWatched)
 
     try:
         progress_percentage = round((TotalEpisodesWatched / TotalEpisodes) * 100);
@@ -173,7 +183,7 @@ def seriespage(request, slug):
             instance.save()
             return HttpResponseRedirect('/series/%s' % slug)
     else:
-        seasonform = SeasonsForm()
+        form = SeasonsForm()
 
     data =  {
         'form': form,
@@ -181,6 +191,8 @@ def seriespage(request, slug):
         'series': series, 
         'seasons': seasons,
         'percent': progress_percentage,
+        'ListTotalEpisodes': ListTotalEpisodes,
+        'ListTotalEpisodesWatched': ListTotalEpisodesWatched,
     }
     return render(request, 'seriespage.html', data)
 
