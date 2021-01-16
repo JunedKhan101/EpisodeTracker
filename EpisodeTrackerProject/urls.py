@@ -27,6 +27,7 @@ urlpatterns = [
     path('home/', views.homeview, name='home'),
 
     path('series/<slug:slug>', views.seriespage, name = 'seriespage'),
+    path('series/edit/<slug:slug>', views.editseriesview, name='editseries'),
     path('series/<slug:series_slug>/<slug:season_slug>', views.seasonspage, name = 'seasonspage'),
 
     path('series/', views.seriesview, name='series'),

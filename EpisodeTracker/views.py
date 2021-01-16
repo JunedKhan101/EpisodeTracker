@@ -159,35 +159,20 @@ def seriespage(request, slug):
         progress_percentage = 0
 
     seasonform = SeasonsForm(request.POST or None)
-    seriesform = SeriesForm(request.POST or None)
     series = get_object_or_404(Series, pk = series.pk)
 
     if request.method == 'POST':
-        if 'season' in request.POST:
-            print('Inside season view')
-            seasonform = SeasonsForm(request.POST)
-            if seasonform.is_valid():
-                episodeswatched = seasonform.cleaned_data['SeasonEpisodesWatched']
-                if episodeswatched == None:
-                    messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes", extra_tags='season')
-                    return HttpResponseRedirect('/series/%s' % slug)
-                instance = seasonform.save(commit=False)
-                instance.Series = series
-                instance.save()
+        print('Inside season view')
+        seasonform = SeasonsForm(request.POST)
+        if seasonform.is_valid():
+            episodeswatched = seasonform.cleaned_data['SeasonEpisodesWatched']
+            if episodeswatched == None:
+                messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
                 return HttpResponseRedirect('/series/%s' % slug)
-                
-        elif 'series' in request.POST:
-            print('Inside series view')
-            seriesform = SeriesForm(request.POST, request.FILES, instance=series)
-            if seriesform.is_valid():
-                episodeswatched = seriesform.cleaned_data['EpisodesWatched']
-                if episodeswatched == None:
-                    messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes", extra_tags='series')
-                    return HttpResponseRedirect('/series/')
-                instance = seriesform.save()
-                instance.user = request.user
-                instance.save()
-                return HttpResponseRedirect('/series/%s' % slug)
+            instance = seasonform.save(commit=False)
+            instance.Series = series
+            instance.save()
+            return HttpResponseRedirect('/series/%s' % slug)
     else:
         seasonform = SeasonsForm()
         seriesform = SeriesForm(instance=series)
@@ -208,3 +193,23 @@ def seasonspage(request, series_slug, season_slug):
     seasons = series.seasons_set.filter(slug=season_slug)
     season = seasons[0]
     return render(request, 'seasons.html', {'series': series, 'season': season})
+
+def editseriesview(request, slug):
+    series = Series.objects.filter(slug=slug)
+    series = series[0]
+
+    form = SeriesForm(request.POST or None, instance=series)
+    if request.method == 'POST':
+        form = SeriesForm(request.POST, request.FILES, instance=series)
+        if form.is_valid():
+            episodeswatched = form.cleaned_data['EpisodesWatched']
+            if episodeswatched == None:
+                messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                return HttpResponseRedirect('/series/edit/%s' % slug)
+            instance = form.save()
+            instance.user = request.user
+            instance.save()
+            return HttpResponseRedirect('/series/edit/%s' % slug)
+    else:
+        form = SeriesForm(instance=series)
+    return render(request, 'editseries.html', {'form': form,})
