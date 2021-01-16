@@ -144,6 +144,12 @@ def createList(val):
         mylist.append(i)
     return mylist
 
+def createUnwatchedList(episodes_watched, val):
+    mylist = []
+    for i in range(1, val + 1):
+        mylist.append(episodes_watched + i)
+    return mylist
+
 def seriespage(request, slug):
     series = Series.objects.filter(slug=slug)
     series = series[0]
@@ -151,8 +157,9 @@ def seriespage(request, slug):
 
     TotalEpisodes = 0
     TotalEpisodesWatched = 0
-    ListTotalEpisodes = list()
-    ListTotalEpisodesWatched = list()
+    ListTotalEpisodes = []
+    ListUnwatchedEpisodes = []
+    ListTotalEpisodesWatched = []
     if series.is_multiple_seasons == True:
         for i in seasons:
             TotalEpisodes += i.SeasonNoEpisodes
@@ -162,6 +169,9 @@ def seriespage(request, slug):
         TotalEpisodesWatched = series.EpisodesWatched
         ListTotalEpisodes = createList(TotalEpisodes)
         ListTotalEpisodesWatched = createList(TotalEpisodesWatched)
+        ListUnwatchedEpisodes = createUnwatchedList(ListTotalEpisodesWatched[len(ListTotalEpisodesWatched) - 1], TotalEpisodes - TotalEpisodesWatched)
+        print(ListUnwatchedEpisodes)
+        
 
     try:
         progress_percentage = round((TotalEpisodesWatched / TotalEpisodes) * 100);
@@ -192,6 +202,7 @@ def seriespage(request, slug):
         'seasons': seasons,
         'percent': progress_percentage,
         'ListTotalEpisodes': ListTotalEpisodes,
+        'ListUnwatchedEpisodes': ListUnwatchedEpisodes,
         'ListTotalEpisodesWatched': ListTotalEpisodesWatched,
     }
     return render(request, 'seriespage.html', data)
