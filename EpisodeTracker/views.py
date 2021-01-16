@@ -77,7 +77,7 @@ def seriesview(request):
         if form.is_valid():
             episodeswatched = form.cleaned_data['EpisodesWatched']
             if episodeswatched == None:
-                messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                messages.error(request, "Episodes watched can't be empty. Enter 0 if you haven't watched any episodes")
                 return HttpResponseRedirect('/series/')
             instance = form.save()
             instance.user = request.user
@@ -97,7 +97,7 @@ def serieslistview(request):
         if form.is_valid():
             episodeswatched = form.cleaned_data['EpisodesWatched']
             if episodeswatched == None:
-                messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                messages.error(request, "Episodes watched can't be empty. Enter 0 if you haven't watched any episodes")
                 return HttpResponseRedirect('/series/list')
             instance = form.save()
             instance.user = request.user
@@ -117,7 +117,7 @@ def seriessimpleview(request):
         if form.is_valid():
             episodeswatched = form.cleaned_data['EpisodesWatched']
             if episodeswatched == None:
-                messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                messages.error(request, "Episodes watched can't be empty. Enter 0 if you haven't watched any episodes")
                 return HttpResponseRedirect('/series/simple')
             instance = form.save()
             instance.user = request.user
@@ -158,32 +158,29 @@ def seriespage(request, slug):
     except ZeroDivisionError:
         progress_percentage = 0
 
-    seasonform = SeasonsForm(request.POST or None)
+    form = SeasonsForm(request.POST or None)
     series = get_object_or_404(Series, pk = series.pk)
 
     if request.method == 'POST':
-        print('Inside season view')
-        seasonform = SeasonsForm(request.POST)
-        if seasonform.is_valid():
-            episodeswatched = seasonform.cleaned_data['SeasonEpisodesWatched']
+        form = SeasonsForm(request.POST)
+        if form.is_valid():
+            episodeswatched = form.cleaned_data['SeasonEpisodesWatched']
             if episodeswatched == None:
-                messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                messages.error(request, "Episodes watched can't be empty. Enter 0 if you haven't watched any episodes")
                 return HttpResponseRedirect('/series/%s' % slug)
-            instance = seasonform.save(commit=False)
+            instance = form.save(commit=False)
             instance.Series = series
             instance.save()
             return HttpResponseRedirect('/series/%s' % slug)
     else:
         seasonform = SeasonsForm()
-        seriesform = SeriesForm(instance=series)
 
     data =  {
-    'seasonform': seasonform, 
-    'seriesform': seriesform,
-    'slug': slug, 
-    'series': series, 
-    'seasons': seasons,
-    'percent': progress_percentage,
+        'form': form,
+        'slug': slug, 
+        'series': series, 
+        'seasons': seasons,
+        'percent': progress_percentage,
     }
     return render(request, 'seriespage.html', data)
 
@@ -204,7 +201,7 @@ def editseriesview(request, slug):
         if form.is_valid():
             episodeswatched = form.cleaned_data['EpisodesWatched']
             if episodeswatched == None:
-                messages.error(request, "Episodes Watched can't be empty. Enter 0 if you haven't watched any episodes")
+                messages.error(request, "Episodes watched can't be empty. Enter 0 if you haven't watched any episodes")
                 return HttpResponseRedirect('/series/edit/%s' % slug)
             instance = form.save()
             instance.user = request.user

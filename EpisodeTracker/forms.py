@@ -76,7 +76,7 @@ class SeriesForm(forms.ModelForm):
 					episodeswatched = 0
 				if episodeswatched > episodes or episodes < episodeswatched:
 					raise forms.ValidationError(
-						_('Error creating series, Episodes watched can\'t be greater than number of episodes'),
+						_('Episodes watched can\'t be greater than number of episodes'),
 						code='series')
 		except KeyError:
 			pass
@@ -105,5 +105,5 @@ class SeasonsForm(forms.ModelForm):
 			episodeswatched = 0
 		if episodeswatched > episodes or episodes < episodeswatched:
 			raise forms.ValidationError(
-				_('Error creating series, Episodes watched can\'t be greater than number of episodes'),
+				_('Episodes watched can\'t be greater than number of episodes'),
 				code='seasons')
