@@ -31,44 +31,6 @@
     <a href="{% url 'editseries' series.slug %}" class="btn btn-primary" id="edit-series-button-only">Edit Series</a>
   {% endif %}
 
-  <!-- Series Modal -->
-  <div class="modal fade" id="editseriesmodal" tabindex="-1" role="dialog" aria-labelledby="SeriesModal" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="width: 40%;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="series-title">Edit Series</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" id="SeriesForm" enctype="multipart/form-data"> {% csrf_token %}
-          {% for seriesfield in seriesform %}
-          {{ seriesfield.label_tag }} {{ seriesfield }}<br>
-          {% endfor %}
-          <strong id="errormsg" style="color: red;">
-            {% if seriesform.errors %}
-                {% for field in seriesform %}
-                  {% for error in field.errors %}
-                      {{ error|escape }}
-                  {% endfor %}
-                {% endfor %}
-              {% for error in seriesform.non_field_errors %}
-                {{ error|escape }}
-                <script>$("#editseriesmodal").modal('show');</script>
-              {% endfor %}
-            {% endif %}
-          </strong>
-       </form>
-     </div>
-     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="submit" name="series" class="btn btn-primary" form="SeriesForm">Save Changes</button>
-    </div>
-  </div>
-  </div>
-  </div>
-
   <!-- Season Modal -->
   <div class="modal fade" id="seasonmodal" tabindex="-1" role="dialog" aria-labelledby="SeasonModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -120,26 +82,33 @@
   </div>
   </div>
 
-  <div id="season-container">
-  	{% for season in seasons %}
-    <a href="{% url 'seasonspage' series.slug season.slug %}" style="text-decoration: none;">
-    	<div id="season">
-    		<p id="season-name">{{season.SeasonName}}</p>
-    	</div>
-    </a>
-  	{% endfor %}
-  </div>
+  {% if series.is_multiple_seasons == True %}
+    <div id="season-container">
+    	{% for season in seasons %}
+      <a href="{% url 'seasonspage' series.slug season.slug %}" style="text-decoration: none;">
+      	<div id="season">
+      		<p id="season-name">{{season.SeasonName}}</p>
+      	</div>
+      </a>
+    	{% endfor %}
+    </div>
+  {% endif %}
   {% endwith %}
 
   {% if series.is_multiple_seasons != True %}
-    <div>
-      {% for i in ListTotalEpisodes %}
-        <ul>
-          <li>
-            <a href="#">{{i}}</a>
-          </li>
+    <div id="Episodes">
+        <ul class="ulElement">
+          {% for i in ListTotalEpisodesWatched %}
+            <li class="liElement">
+              <a class="anchor-watched" href="#">{{i}}</a>
+            </li>
+          {% endfor %}
+          {% for i in ListUnwatchedEpisodes %}
+            <li class="liElement">
+              <a class="anchor" href="#">{{i}}</a>
+            </li>
+          {% endfor %}
         </ul>
-      {% endfor %}
     </div>
   {% endif %}
 <script>

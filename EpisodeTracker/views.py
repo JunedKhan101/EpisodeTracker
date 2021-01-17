@@ -169,10 +169,10 @@ def seriespage(request, slug):
         TotalEpisodesWatched = series.EpisodesWatched
         ListTotalEpisodes = createList(TotalEpisodes)
         ListTotalEpisodesWatched = createList(TotalEpisodesWatched)
-        ListUnwatchedEpisodes = createUnwatchedList(ListTotalEpisodesWatched[len(ListTotalEpisodesWatched) - 1], TotalEpisodes - TotalEpisodesWatched)
-        print(ListUnwatchedEpisodes)
-        
-
+        if TotalEpisodes != 0:
+            ListUnwatchedEpisodes = createUnwatchedList(ListTotalEpisodesWatched[len(ListTotalEpisodesWatched) - 1], TotalEpisodes - TotalEpisodesWatched)
+        else:
+            ListUnwatchedEpisodes = []
     try:
         progress_percentage = round((TotalEpisodesWatched / TotalEpisodes) * 100);
     except ZeroDivisionError:
@@ -212,7 +212,44 @@ def seasonspage(request, series_slug, season_slug):
     series = series[0]
     seasons = series.seasons_set.filter(slug=season_slug)
     season = seasons[0]
-    return render(request, 'seasons.html', {'series': series, 'season': season})
+
+    TotalEpisodes = season.SeasonNoEpisodes
+    TotalEpisodesWatched = season.SeasonEpisodesWatched
+    ListTotalEpisodes = []
+    ListUnwatchedEpisodes = []
+    ListTotalEpisodesWatched = []
+
+    ListTotalEpisodes = createList(TotalEpisodes)
+    ListTotalEpisodesWatched = createList(TotalEpisodesWatched)
+    if TotalEpisodes != 0:
+        ListUnwatchedEpisodes = createUnwatchedList(ListTotalEpisodesWatched[len(ListTotalEpisodesWatched) - 1], TotalEpisodes - TotalEpisodesWatched)
+    else:
+        ListUnwatchedEpisodes = []
+
+    form = SeasonsForm(request.POST or None, instance=season)
+    if request.method == 'POST':
+        form = SeasonsForm(request.POST, instance=season)
+        if form.is_valid():
+            episodeswatched = form.cleaned_data['SeasonEpisodesWatched']
+            if episodeswatched == None:
+                messages.error(request, "Episodes watched can't be empty. Enter 0 if you haven't watched any episodes")
+                return HttpResponseRedirect('/series/%s' % slug)
+            instance = form.save(commit=False)
+            instance.Series = series
+            instance.save()
+            return HttpResponseRedirect('/series/%s/%s' % series.slug, season.slug)
+    else:
+        form = SeasonsForm(instance=season)
+
+    data = {
+        'form': form,
+        'series': series,
+        'season': season,
+        'ListTotalEpisodes': ListTotalEpisodes,
+        'ListUnwatchedEpisodes': ListUnwatchedEpisodes,
+        'ListTotalEpisodesWatched': ListTotalEpisodesWatched,
+    }
+    return render(request, 'seasons.html', data)
 
 def editseriesview(request, slug):
     series = Series.objects.filter(slug=slug)
