@@ -26,9 +26,9 @@
   <br /><br />
   {% if series.is_multiple_seasons %}
     <button class="btn btn-primary" id="add-season-button" data-toggle="modal" data-target="#seasonmodal">Add a season</button>
-    <a href="{% url 'editseries' series.slug %}" class="btn btn-primary" id="edit-series-button">Edit Series</a>
+    <a href="{% url 'editseries' series.slug %}" class="btn btn-primary" id="edit-series-button">Edit {{series.SeriesName}}</a>
   {% else %}
-    <a href="{% url 'editseries' series.slug %}" class="btn btn-primary" id="edit-series-button-only">Edit Series</a>
+    <a href="{% url 'editseries' series.slug %}" class="btn btn-primary" id="edit-series-button-only">Edit {{series.SeriesName}}</a>
   {% endif %}
 
   <!-- Season Modal -->
