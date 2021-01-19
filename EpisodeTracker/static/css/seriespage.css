@@ -148,3 +148,13 @@
     color: #FFFFFF;
     cursor: pointer;
 }
+.anchor-watched:hover {
+	background: #1a376b;
+	color: white;
+	text-decoration: none;
+}
+.anchor:hover {
+	background-color: #6D6E6F;
+	color: white;
+	text-decoration: none;
+}
