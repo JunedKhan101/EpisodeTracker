@@ -7,15 +7,31 @@
 {% endblock %}
 
 {% block content %}
-{% with series_slug=series.slug %} 
-  <div id="ImageCover-container">
-    {% if series.CoverImage.name == '/noimg.png' or not series.CoverImage %}
-      <h1 id="CoverImage-SeriesName" style="color: black;">{{series.SeriesName}}</h1>
-    {% elif series.CoverImage %}
-      <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Image">
-    {% endif %}
-  </div>
-  <h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
+{% with series_slug=series.slug %}
+  {% if series.CoverImage.width <= series.CoverImage.height %}
+    <div id="ImageCover-container">
+      <div id="ImageCover">
+        {% if series.CoverImage.name == '/noimg.png' or not series.CoverImage %}
+        {% elif series.CoverImage %}
+          <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Image">
+        {% endif %}
+      </div>
+      {% if series.CoverImage.name == '/noimg.png' %}
+        <h1 id="CoverImage-SeriesName" style="color: black; position: absolute; top: 10%; left: 45%;">{{series.SeriesName}}</h1>
+      {% else %}
+        <h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
+      {% endif %}
+    </div>
+    {% elif series.CoverImage.width > series.CoverImage.height %}
+      <div id="LandscapeImageCover-container">
+        {% if series.CoverImage.name == '/noimg.png' or not series.CoverImage %}
+          <h1 id="Landscape-CoverImage-SeriesName" style="color: black;">{{series.SeriesName}}</h1>
+        {% elif series.CoverImage %}
+          <img id="Landscape-CoverImage" src="{{series.CoverImage.url}}" alt="Image">
+          <h1 id="Landscape-CoverImage-SeriesName">{{series.SeriesName}}</h1>
+        {% endif %}
+    </div>
+  {% endif %}
   <hr id="bottom-border">
   <div id="progress">
     <p>You have watched:</p>
@@ -136,6 +152,7 @@
     window.location.href = window.location.href;
   });
 
+
   const colorThief = new ColorThief();
   const img = document.getElementById('CoverImage');
   const hr = document.getElementById('bottom-border');
@@ -153,5 +170,6 @@
     });
   }
 </script>
+<br /><br /><br /><br /><br /><br /><br /><br /><br />
 <br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endblock %}
