@@ -212,7 +212,6 @@ def seasonspage(request, series_slug, season_slug):
     series = series[0]
     seasons = series.seasons_set.filter(slug=season_slug)
     season = seasons[0]
-
     TotalEpisodes = season.SeasonNoEpisodes
     TotalEpisodesWatched = season.SeasonEpisodesWatched
     ListTotalEpisodes = []
@@ -237,7 +236,7 @@ def seasonspage(request, series_slug, season_slug):
             instance = form.save(commit=False)
             instance.Series = series
             instance.save()
-            return HttpResponseRedirect('/series/%s/%s' % series.slug, season.slug)
+            return HttpResponseRedirect("/series/{0}/{1}".format(series_slug, season_slug))
     else:
         form = SeasonsForm(instance=season)
 
