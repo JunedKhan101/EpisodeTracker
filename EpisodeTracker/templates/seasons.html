@@ -7,6 +7,9 @@
 
 {% block content %}
 	<button class="btn btn-primary" id="add-season-button" data-toggle="modal" data-target="#seasonmodal">Edit {{season.SeasonName}}</button>
+  <form  method="POST" class="delete-form"> {% csrf_token %}
+    <button type="submit" class="btn btn-danger" id="delete-button" name="deletebutton">Delete this Season</button>
+  </form>
 	<!-- Season Modal -->
   <div class="modal fade" id="seasonmodal" tabindex="-1" role="dialog" aria-labelledby="SeasonModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

@@ -12,6 +12,9 @@
 			<br>
 			<h1 id="heading" style="text-align: center;">Edit Series</h1><br />
 			<div style="display: flex; align-items: center; justify-content: center;">
+        <form method="POST"> {% csrf_token %}
+          <button type="submit" class="btn btn-danger" id="delete-button" name="deletebutton">Delete this Series</button>
+        </form>
         {% if form.errors %}
           {% for field in form %}
             {% for error in field.errors %}

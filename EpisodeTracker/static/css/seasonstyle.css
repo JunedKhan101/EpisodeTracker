@@ -3,6 +3,14 @@
 	left: 50%;
 	top: 10%;
 	transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%,-50%);
+}
+#delete-button {
+    position: relative;
+    left: 80%;
+    top: 33px;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%,-50%);
 }
 #Episodes {
 	width: 50%;
@@ -10,6 +18,7 @@
 	left: 51%;
 	top: 50%;
 	transform: translate(-50%, -50%); 
+    -webkit-transform: translate(-50%,-50%);
 }
 .ulElement {
     color: #EEE;

@@ -224,9 +224,11 @@ def seasonspage(request, series_slug, season_slug):
         ListUnwatchedEpisodes = createUnwatchedList(ListTotalEpisodesWatched[len(ListTotalEpisodesWatched) - 1], TotalEpisodes - TotalEpisodesWatched)
     else:
         ListUnwatchedEpisodes = []
-
     form = SeasonsForm(request.POST or None, instance=season)
     if request.method == 'POST':
+        if 'deletebutton' in request.POST:
+            series.seasons_set.filter(slug=season_slug).delete()
+            return HttpResponseRedirect("/series/{0}".format(series_slug))
         form = SeasonsForm(request.POST, instance=season)
         if form.is_valid():
             episodeswatched = form.cleaned_data['SeasonEpisodesWatched']
@@ -256,6 +258,9 @@ def editseriesview(request, slug):
 
     form = SeriesForm(request.POST or None, instance=series)
     if request.method == 'POST':
+        if 'deletebutton' in request.POST:
+            Series.objects.filter(slug=slug).delete()
+            return HttpResponseRedirect("/series")
         form = SeriesForm(request.POST, request.FILES, instance=series)
         if form.is_valid():
             episodeswatched = form.cleaned_data['EpisodesWatched']
