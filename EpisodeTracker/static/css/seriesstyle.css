@@ -56,3 +56,11 @@
   object-fit: cover;
   transition: transform 0.3s;
 }
+#noseries {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#noseries > h1 {
+  color: black;
+}

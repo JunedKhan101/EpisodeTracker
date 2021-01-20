@@ -119,18 +119,20 @@
   </div>
   <!-- Container wrapper -->
 </nav>
+
 <div id="root-content-container">
 {% block content %}
-<canvas id="c"></canvas>
-<p id="slogan">Track your episodes</p>
-<a id="bg-button" href="">Get Started</a>
-<div id="parallax2">
-<div id="description">
-<h1>"Uhh...where was I?"</h1>
-<p>Has this ever happened to you where you are watching a series and you forgot how many episodes you've watched last time? so you rummage through the episodes in the hope of finding the one that you've not watched yet.</p>
-<p>Well, We've got you covered now. <a style="color: #1a73e8;" href="{% url 'about' %}">Learn More</a></p>
-</div>
-</div>
+  <div id="start-container">
+    <p id="slogan">Track your episodes</p>
+    <a id="bg-button" href="">Get Started</a>
+  </div>
+  <div id="parallax">
+    <div id="description">
+      <h1>"Uhh...where was I?"</h1>
+      <p>Has this ever happened to you where you are watching a series and you forgot how many episodes you've watched last time? so you rummage through the episodes in the hope of finding the one that you've not watched yet.</p>
+      <p>Well, We've got you covered now. <a style="color: #1a73e8;" href="{% url 'about' %}">Learn More</a></p>
+    </div>
+  </div>
 {% endblock %}
 <br><br><br><br><br>
 </div>
@@ -143,7 +145,6 @@
 </script>
 
 </body>
-
 <footer id="footer">
   <br>
   <div id="footer-links">
