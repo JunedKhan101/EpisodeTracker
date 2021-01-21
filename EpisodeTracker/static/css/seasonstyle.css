@@ -1,17 +1,22 @@
-#add-season-button {
-	position: relative;
+#edit-season-button {
+	position: absolute;
 	left: 50%;
-	top: 10%;
+	top: 20%;
 	transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%,-50%);
 }
 #delete-button {
     position: relative;
     left: 80%;
-    top: 33px;
+    top: 75px;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%,-50%);
 }
+/*.delete-form {
+    position: absolute;
+    left: 80%;
+    top: 20%;
+}*/
 #Episodes {
 	width: 50%;
 	position: relative;

@@ -212,18 +212,22 @@ def seasonspage(request, series_slug, season_slug):
     series = series[0]
     seasons = series.seasons_set.filter(slug=season_slug)
     season = seasons[0]
+
     TotalEpisodes = season.SeasonNoEpisodes
     TotalEpisodesWatched = season.SeasonEpisodesWatched
     ListTotalEpisodes = []
     ListUnwatchedEpisodes = []
     ListTotalEpisodesWatched = []
 
-    ListTotalEpisodes = createList(TotalEpisodes)
-    ListTotalEpisodesWatched = createList(TotalEpisodesWatched)
-    if TotalEpisodes != 0:
+    if TotalEpisodesWatched != 0 and TotalEpisodes != 0:
+        ListTotalEpisodes = createList(TotalEpisodes)
+        ListTotalEpisodesWatched = createList(TotalEpisodesWatched)
         ListUnwatchedEpisodes = createUnwatchedList(ListTotalEpisodesWatched[len(ListTotalEpisodesWatched) - 1], TotalEpisodes - TotalEpisodesWatched)
-    else:
-        ListUnwatchedEpisodes = []
+
+    if TotalEpisodesWatched == 0 and TotalEpisodes != 0:
+        ListTotalEpisodes = createList(TotalEpisodes)
+        ListUnwatchedEpisodes = ListTotalEpisodes
+
     form = SeasonsForm(request.POST or None, instance=season)
     if request.method == 'POST':
         if 'deletebutton' in request.POST:
