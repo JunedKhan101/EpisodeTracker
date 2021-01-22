@@ -42,7 +42,7 @@ class Series(models.Model):
     NoEpisodes = models.PositiveIntegerField(default=0)
     EpisodesWatched = models.PositiveIntegerField(null=True, blank=True, default=0)
     Label = models.CharField(max_length=20, choices=LabelChoices, default="Series")
-    CoverImage = models.ImageField(upload_to="uploads", null=True, blank=True, default="/noimg.png")
+    CoverImage = models.ImageField(upload_to="uploads", null=True, blank=True, default="/default_img.png")
     DateCreated = models.DateField(default=timezone.now)
 
     def __str__(self):

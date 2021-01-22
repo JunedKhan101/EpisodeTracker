@@ -1,53 +1,81 @@
 /*------------------Series--------------------*/
 #create-series-btn {
-  position: absolute;
+  position: relative;
   left: 50%;
-  top: 100px;
+  top: 50px;
   transform: translate(-50%, -50%);
 }
 #noseries {
-  position: absolute;
+  position: relative;
   left: 50%;
   top: 200px;
   transform: translate(-50%, -50%);
 }
 #LayoutDropdown {
-  position: absolute;
-  right: 3%;
-  top: 100px;
-  transform: translate(-50%, -50%);
+  position: relative;
+  left: 80%;
+  bottom: 3px;
+  z-index: 1;
 }
 #series-root-container {
   position: relative;
   left: 12%;
-  top: 30%;
+  top: 20%;
   transform: translate(-50px, -50px);
-  display: flex;
+  /*display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap;*/
   width: 80%;
 }
 #series-root-container > *:not(:first-child){
     margin-top: 30px;
 }
 #ahref-seriescard {
-  width: 100%;
-  height: 80px;
   text-decoration: none;
 }
 #series-card {
   width: 100%;
   height: 80px;
-  border: 1px solid black;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  /*border: 1px solid black;*/
+  /*border-radius: 15px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);*/
   transition: transform 0.3s;
+  position: relative;
+  left: 10%;
+  top: -100px;
 }
-#series-card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    -ms-transform: scale(1.05); /* IE 9 */
-  -webkit-transform: scale(1.05); /* Safari 3-8 */
-  transform: scale(1.05);
+#series-card-name {
+  display: inline;
+  margin-left: 5px;
+}
+#series-card > p {
+  margin-left: 5px;
+}
+#series-card-name:after {
+  content: " \00b7";
+}
+#CoverImage {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  object-fit: cover;
+  border-radius: 15px;
+}
+#CoverImage-container {
+  width: 100px;
+}
+@media only screen and (max-width: 768px) {
+  #LayoutDropdown {
+    left: 75%;
+  }
+}
+@media only screen and (max-width: 576px) {
+  #LayoutDropdown {
+    left: 60%;
+  }
+  #create-series-btn {
+    left: 35%;
+  }
 }

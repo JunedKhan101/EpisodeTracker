@@ -30,7 +30,7 @@
       <div class="modal-body">
         <form method="POST" id="SeriesForm" enctype="multipart/form-data"> {% csrf_token %}
         	{% for field in form %}
-        	{{ field.label_tag }} {{ field }}<br />
+        	 {{ field.label_tag }} {{ field }}<br />
         	{% endfor %}
         	<strong id="errormsg" style="color: red;">
          </strong>
@@ -49,7 +49,7 @@
     <a href="{% url 'seriespage' series.slug %}" style="text-decoration: none;">
     <div class="series-card">
      {% if series.CoverImage %}
-     <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Img">
+      <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Img">
      {% endif %}
      <div class="series-container">
         <p>{{ series.SeriesName }}</p>

@@ -39,7 +39,7 @@
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   -ms-transform: scale(1.1); /* IE 9 */
   -webkit-transform: scale(1.1); /* Safari 3-8 */
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 .series-container {
   text-align: center;
@@ -50,13 +50,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-#CoverImage{
-  width: 150px;
-  height: 150px;
-  overflow: hidden;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
 #noseries {
   position: absolute;
   left: 50%;
@@ -64,6 +57,13 @@
 }
 #noseries > h1 {
   color: black;
+}
+#CoverImage{
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  object-fit: cover;
+  transition: transform 0.3s;
 }
 @media only screen and (max-width: 768px) {
   #LayoutDropdown {

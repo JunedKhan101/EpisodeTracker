@@ -8,6 +8,7 @@ from EpisodeTracker.forms import SignUpForm, EditProfileForm, SeriesForm, Season
 from django.core.mail import send_mail
 from .models import Series
 from django.shortcuts import get_object_or_404
+from django.db.models import Count
 
 def homeview(request):
 	return render(request, "index.html", {})
@@ -88,6 +89,8 @@ def seriesview(request):
 def serieslistview(request):
     form = SeriesForm(request.POST or None)
     obj = Series.objects.filter(user_id=request.user.id)
+    count = Series.objects.annotate(Count('seasons')).all()
+    count = count.values_list('SeriesName', 'seasons__count')
 
     if request.session.get('layout', None) != '/series/list':
         request.session['layout'] = '/series/list'
@@ -103,7 +106,7 @@ def serieslistview(request):
             instance.user = request.user
             instance.save()
             return HttpResponseRedirect('/series/list')
-    return render(request, 'serieslist.html', {'form': form, 'obj': obj})
+    return render(request, 'serieslist.html', {'form': form, 'obj': obj, 'count': count,})
 
 def seriessimpleview(request):
     form = SeriesForm(request.POST or None)

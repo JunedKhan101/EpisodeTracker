@@ -46,14 +46,26 @@
 
 <div id="series-root-container">
   {% for series in obj %}
-  <a id="ahref-seriescard" href="{% url 'seriespage' series.slug %}">
-  <div id="series-card">
-    <h5 style="padding-left: 5px;">{{ series.SeriesName }}</h5>
-    <p style="padding-left: 5px; position: relative; bottom: 5px;">
-    {{series.EpisodesWatched}}/{{series.NoEpisodes}} Watched
-    </p>
-  </div>
-  </a>
+    <a id="ahref-seriescard" href="{% url 'seriespage' series.slug %}">
+      <div id="CoverImage-container">
+        <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Img">
+      </div>
+      <div id="series-card">
+        <h5 id="series-card-name">{{ series.SeriesName }}</h5>&nbsp;&nbsp;{{series.get_Label_display}}
+        <br />
+        <p>
+        {% if series.is_multiple_seasons == True %}
+          {{series.EpisodesWatched}}/{{series.NoEpisodes}} Watched
+        {% else %}
+          {% for i in count %}
+            {% if i.0 == series.SeriesName %}
+              {{i.1}} Seasons
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        </p>
+      </div>
+    </a>
   {% endfor %}
 </div>
 {% if not obj %}
