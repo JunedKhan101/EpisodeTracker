@@ -13,7 +13,8 @@
 }
 #LayoutDropdown {
   position: relative;
-  left: 89%;
+  left: 80%;
+  bottom: 3px;
   z-index: 1;
 }
 #series-root-container {
@@ -64,3 +65,25 @@
 #noseries > h1 {
   color: black;
 }
+@media only screen and (max-width: 768px) {
+  #LayoutDropdown {
+    left: 75%;
+  }
+}
+@media only screen and (max-width: 576px) {
+  #LayoutDropdown {
+    left: 60%;
+  }
+  #create-series-btn {
+    left: 35%;
+  }
+  #series-root-container {
+    left: 5%;
+  }
+}
+@media only screen and (max-width: 378px) {
+  #series-root-container {
+    left: 28%;
+    top: 5%;
+  }
+} 

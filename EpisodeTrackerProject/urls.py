@@ -26,10 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.homeview, name='home'),
 
-    path('series/<slug:slug>', views.seriespage, name = 'seriespage'),
-    path('series/edit/<slug:slug>', views.editseriesview, name='editseries'),
-    path('series/<slug:series_slug>/<slug:season_slug>', views.seasonspage, name = 'seasonspage'),
-
     path('series/', views.seriesview, name='series'),
     path('series/list', views.serieslistview, name='serieslist'),
     path('series/simple', views.seriessimpleview, name='seriessimple'),
@@ -43,6 +39,10 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), {'template_name': 'logout.html'}, name='logout'),
     path('profile/pwd/', views.changepwd, name='changepwd'),
     path('', include('django.contrib.auth.urls')),
+
+    path('series/<slug:slug>', views.seriespage, name = 'seriespage'),
+    path('series/edit/<slug:slug>', views.editseriesview, name='editseries'),
+    path('series/<slug:series_slug>/<slug:season_slug>', views.seasonspage, name = 'seasonspage'),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -7,17 +7,15 @@
 #ImageCover {
 	width: 35%;
 	height: 200px;
-	overflow: hidden;
 }
 #CoverImage {
 	width: 35%;
 	height: 200px;
 }
 #CoverImage-SeriesName {
-    position: absolute;
-    top: 10%;
-    left: 20%;
-    transform: translate(-50%, -50%);
+	position: absolute;
+    left: 15%;
+    bottom: 70%;
 }
 #LandscapeImageCover-container {
 	width: 100%;

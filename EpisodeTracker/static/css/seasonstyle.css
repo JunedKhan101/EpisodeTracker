@@ -12,11 +12,6 @@
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%,-50%);
 }
-/*.delete-form {
-    position: absolute;
-    left: 80%;
-    top: 20%;
-}*/
 #Episodes {
 	width: 50%;
 	position: relative;

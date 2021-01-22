@@ -15,8 +15,8 @@
           <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Image">
         {% endif %}
       </div>
-      {% if series.CoverImage.name == '/noimg.png' %}
-        <h1 id="CoverImage-SeriesName" style="color: black; position: absolute; top: 10%; left: 45%;">{{series.SeriesName}}</h1>
+      {% if series.CoverImage.name == '/noimg.png' or not series.CoverImage %}
+        <h1 id="CoverImage-SeriesName" style="color: black; position: absolute; top: 10%; left: 45%; transform: translate(-50%, -50%);">{{series.SeriesName}}</h1>
       {% else %}
         <h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
       {% endif %}
@@ -174,7 +174,6 @@
     window.location.reload();
     window.location.href = window.location.href;
   });
-
 
   const colorThief = new ColorThief();
   const img = document.getElementById('CoverImage');
