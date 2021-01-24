@@ -4,9 +4,8 @@
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/seasonstyle.css' %}">
 {% endblock %}
-
 {% block content %}
-  <a href="{% url 'seasons_progress_page' series.slug season.slug %}" id="layout-button" class="btn btn-primary">Progress Layout</a>
+  <a href="{% url 'seasonspage' series.slug season.slug %}" id="layout-button" class="btn btn-primary">Grid Layout</a>
 	<button class="btn btn-primary" id="edit-season-button" data-toggle="modal" data-target="#seasonmodal">Edit {{season.SeasonName}}</button>
 	<!-- Season Modal -->
   <div class="modal fade" id="seasonmodal" tabindex="-1" role="dialog" aria-labelledby="SeasonModal" aria-hidden="true">
@@ -60,19 +59,10 @@
   </div>
   </div>
 
-  <div id="Episodes">
-    <ul class="ulElement">
-      {% for i in ListTotalEpisodesWatched %}
-        <li class="liElement">
-          <a class="anchor-watched" href="#">{{i}}</a>
-        </li>
-      {% endfor %}
-      {% for i in ListUnwatchedEpisodes %}
-        <li class="liElement">
-          <a class="anchor" href="#">{{i}}</a>
-        </li>
-      {% endfor %}
-    </ul>
+  <p style="position: relative;left: 15%;top: 23%;">Episodes watched: {{season.SeasonEpisodesWatched}}</p>
+  <p style="position: relative;left: 86%;top: 233px;">{{season.SeasonNoEpisodes}}</p>
+  <div class="progress" style="height: 20px;">
+      <div class="progress-bar" role="progressbar" style="width: {{percent}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{percent}}%</div>
   </div>
 
   <div style="background-color: rgba(0, 0, 0, 0.7);" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -96,5 +86,7 @@
       </div>
     </div>
   </div>
-  <br /><br /><br /><br />
+  <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+  <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+  <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endblock %}

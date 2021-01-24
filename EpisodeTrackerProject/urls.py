@@ -43,6 +43,7 @@ urlpatterns = [
     path('series/<slug:slug>', views.seriespage, name = 'seriespage'),
     path('series/edit/<slug:slug>', views.editseriesview, name='editseries'),
     path('series/<slug:series_slug>/<slug:season_slug>', views.seasonspage, name = 'seasonspage'),
+    path('series/<slug:series_slug>/<slug:season_slug>/progress', views.seasons_progress_page, name = 'seasons_progress_page'),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

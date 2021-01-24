@@ -281,3 +281,43 @@ def editseriesview(request, slug):
     else:
         form = SeriesForm(instance=series)
     return render(request, 'editseries.html', {'form': form,})
+
+def seasons_progress_page(request, series_slug, season_slug):
+    series = Series.objects.filter(slug = series_slug)
+    series = series[0]
+    seasons = series.seasons_set.filter(slug=season_slug)
+    season = seasons[0]
+
+    TotalEpisodesWatched = season.SeasonEpisodesWatched
+    TotalEpisodes = season.SeasonNoEpisodes
+
+    try:
+        progress_percentage = round((TotalEpisodesWatched / TotalEpisodes) * 100);
+    except ZeroDivisionError:
+        progress_percentage = 0
+
+    form = SeasonsForm(request.POST or None, instance=season)
+    if request.method == 'POST':
+        if 'deletebutton' in request.POST:
+            series.seasons_set.filter(slug=season_slug).delete()
+            return HttpResponseRedirect("/series/{0}".format(series_slug))
+        form = SeasonsForm(request.POST, instance=season)
+        if form.is_valid():
+            episodeswatched = form.cleaned_data['SeasonEpisodesWatched']
+            if episodeswatched == None:
+                messages.error(request, "Episodes watched can't be empty. Enter 0 if you haven't watched any episodes")
+                return HttpResponseRedirect('/series/%s' % slug)
+            instance = form.save(commit=False)
+            instance.Series = series
+            instance.save()
+            return HttpResponseRedirect("/series/{0}/{1}".format(series_slug, season_slug))
+    else:
+        form = SeasonsForm(instance=season)
+
+    data = {
+        'form': form,
+        'series': series,
+        'season': season,
+        'percent': progress_percentage,
+    }
+    return render(request, 'seasons_progress_page.html', data)

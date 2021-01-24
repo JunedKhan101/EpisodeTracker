@@ -225,3 +225,28 @@
 	color: white;
 	text-decoration: none;
 }
+@media only screen and (max-width: 670px) {
+	#Landscape-add-season-button {
+		left: 30%;
+	}
+	#Landscape-edit-series-button {
+		left: 50%;
+	}
+}
+@media only screen and (max-width: 607px) {
+	#Landscape-season-container {
+		left: 65%;
+	}
+}
+@media only screen and (max-width: 379px) {
+	#Landscape-season-container {
+		top: 30%;
+		left: 80%;
+	}
+	#Landscape-add-season-button {
+		left: 23%;
+	}
+	#Landscape-edit-series-button {
+		left: 40%;
+	}
+}

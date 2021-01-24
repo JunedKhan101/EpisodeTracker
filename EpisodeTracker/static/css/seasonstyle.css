@@ -5,7 +5,7 @@
 	transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%,-50%);
 }
-#delete-button {
+#layout-button {
     position: relative;
     left: 80%;
     top: 75px;
@@ -94,4 +94,11 @@
 	background-color: #6D6E6F;
 	color: white;
 	text-decoration: none;
+}
+.progress {
+    position: relative;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
+    width: 70%;
 }

@@ -1,5 +1,5 @@
 /*#heading { font-family: 'Rakkas', cursive; }*/
-#content-midcontainer{
+#content-midcontainer {
   width: 50%;
   margin-left: auto;
   margin-right: auto; 
@@ -51,4 +51,9 @@
 #modal-body-content {
   padding-top: 10px;
   font-weight: bold;
+}
+@media only screen and (max-width: 900px) {
+  #content-midcontainer {
+    width: 70%;
+  }
 }

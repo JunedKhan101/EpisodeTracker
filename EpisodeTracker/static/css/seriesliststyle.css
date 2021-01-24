@@ -36,9 +36,9 @@
   text-decoration: none;
 }
 #series-card {
-  width: 100%;
+  width: 40%;
   height: 80px;
-  /*border: 1px solid black;*/
+  /*border: 1px solid black;*/      
   /*border-radius: 15px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);*/
   transition: transform 0.3s;
