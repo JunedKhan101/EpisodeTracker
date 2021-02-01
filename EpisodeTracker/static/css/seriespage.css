@@ -1,21 +1,22 @@
 #ImageCover-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 	position: relative;
-	left: 55%;
-	top: 20%;
-	transform: translate(-50%, -50%);
+	top: 2%;
 }
 #ImageCover {
-	width: 35%;
+	width: 170px;
 	height: 200px;
 }
 #CoverImage {
-	width: 35%;
+	width: 170px;
 	height: 200px;
+	border-radius: 15px;
 }
 #CoverImage-SeriesName {
-	position: absolute;
-    left: 15%;
-    bottom: 70%;
+	color: black;
 }
 #LandscapeImageCover-container {
 	width: 100%;
@@ -54,9 +55,9 @@
 }
 #progress {
 	position: relative;
-	left: 50%;
-	top: 19%;
-	transform: translate(-50%, -50%);
+	left: 15%;
+	top: 4%;
+	/*transform: translate(-50%, -50%);*/
 	width: 70%;
 }
 #Landscape-progress {
@@ -92,7 +93,7 @@
 #edit-series-button-only {
 	position: relative;
 	left: 50%;
-	top: 25%;
+	top: 8%;
 	transform: translate(-50%, -50%);	
 }
 #Landscape-edit-series-button-only {
@@ -103,7 +104,6 @@
 }
 #season-container {
 	position: relative;
-	top: 20%;
 	left: 55%;
 	top: 40%;
 	transform: translate(-50%, -50%);
@@ -142,12 +142,18 @@
 	text-align: center;
 	padding-top: 13px;
 }
+#Episodes-container {
+	position: relative;
+	top: 10%;
+}
 #Episodes {
 	width: 50%;
+	position: absolute;
+	left: 27%;
+}
+#spacing-super-container {
 	position: relative;
-	left: 51%;
-	top: 40%;
-	transform: translate(-50%, -50%); 
+	top: 20%;
 }
 .ulElement {
     color: #EEE;

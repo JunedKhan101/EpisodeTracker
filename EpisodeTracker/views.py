@@ -173,11 +173,15 @@ def seriespage(request, slug):
         ListTotalEpisodes = createList(TotalEpisodes)
         ListTotalEpisodesWatched = createList(TotalEpisodesWatched)
         if TotalEpisodes != 0:
-            ListUnwatchedEpisodes = createUnwatchedList(ListTotalEpisodesWatched[len(ListTotalEpisodesWatched) - 1], TotalEpisodes - TotalEpisodesWatched)
+            try:
+                ListUnwatchedEpisodes = createUnwatchedList(ListTotalEpisodesWatched[len(ListTotalEpisodesWatched) - 1], TotalEpisodes - TotalEpisodesWatched)
+            except IndexError:
+                ListUnwatchedEpisodes = createList(TotalEpisodes)
         else:
             ListUnwatchedEpisodes = []
     try:
-        progress_percentage = round((TotalEpisodesWatched / TotalEpisodes) * 100);
+        progress_percentage = round(TotalEpisodesWatched / TotalEpisodes * 100);
+        print(progress_percentage)
     except ZeroDivisionError:
         progress_percentage = 0
 

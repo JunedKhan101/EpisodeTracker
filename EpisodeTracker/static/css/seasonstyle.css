@@ -12,13 +12,19 @@
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%,-50%);
 }
+#Episodes-container {
+    width: 100%;
+    position: absolute;
+    top: 40%;
+}
 #Episodes {
 	width: 50%;
 	position: relative;
-	left: 51%;
-	top: 50%;
-	transform: translate(-50%, -50%); 
-    -webkit-transform: translate(-50%,-50%);
+	left: 26%;
+}
+#spacing-super-container {
+    position: relative;
+    top: 10%;
 }
 .ulElement {
     color: #EEE;

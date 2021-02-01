@@ -60,6 +60,7 @@
   </div>
   </div>
 
+<div id="Episodes-container">
   <div id="Episodes">
     <ul class="ulElement">
       {% for i in ListTotalEpisodesWatched %}
@@ -74,7 +75,18 @@
       {% endfor %}
     </ul>
   </div>
+</div>
+  <div id="spacing-super-container">
+    <div id="spacing-container">
+      {% for i in ListTotalEpisodesWatched %}
+        <div style="width: 100%; padding-top: 5px"></div>
+      {% endfor %}
 
+      {% for i in ListUnwatchedEpisodes %}
+        <div style="width: 100%; padding-top: 5px"></div>
+      {% endfor %}
+    </div>
+  </div>
   <div style="background-color: rgba(0, 0, 0, 0.7);" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -96,5 +108,8 @@
       </div>
     </div>
   </div>
-  <br /><br /><br /><br />
+  <br /><br /><br /><br /><br /><br /><br /><br />
+  <br /><br /><br /><br /><br /><br /><br /><br />
+  <br /><br /><br /><br /><br /><br /><br /><br />
+  <br /><br /><br /><br /><br /><br /><br /><br />
 {% endblock %}

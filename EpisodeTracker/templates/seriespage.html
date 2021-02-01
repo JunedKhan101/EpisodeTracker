@@ -10,18 +10,17 @@
 {% with series_slug=series.slug %}
   {% if series.CoverImage.width <= series.CoverImage.height or series.CoverImage.name == '/default_img.png' or not series.CoverImage %}
     <div id="ImageCover-container">
+      {% if series.CoverImage.name == '/default_img.png' or not series.CoverImage %}
+        <h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
+      {% else %}
+        <h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
+      {% endif %}
       <div id="ImageCover">
         {% if series.CoverImage and series.CoverImage != '/default_img.png' %}
           <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Image">
         {% endif %}
       </div>
-      {% if series.CoverImage.name == '/default_img.png' or not series.CoverImage %}
-        <h1 id="CoverImage-SeriesName" style="color: black; position: absolute; top: 10%; left: 45%; transform: translate(-50%, -50%);">{{series.SeriesName}}</h1>
-      {% else %}
-        <h1 id="CoverImage-SeriesName">{{series.SeriesName}}</h1>
-      {% endif %}
     </div>
-    <hr id="bottom-border">
     <div id="progress">
       <p>You have watched:</p>
       <div class="progress" style="height: 20px;">
@@ -134,6 +133,7 @@
   </div>
 
   {% if series.is_multiple_seasons != True %}
+  <div id="Episodes-container">
     <div id="Episodes">
         <ul class="ulElement">
           {% for i in ListTotalEpisodesWatched %}
@@ -148,7 +148,19 @@
           {% endfor %}
         </ul>
     </div>
+  </div>
   {% endif %}
+  <div id="spacing-super-container">
+    <div id="spacing-container">
+      {% for i in ListTotalEpisodesWatched %}
+        <div style="width: 100%; padding-top: 5px"></div>
+      {% endfor %}
+
+      {% for i in ListUnwatchedEpisodes %}
+        <div style="width: 100%; padding-top: 5px"></div>
+      {% endfor %}
+    </div>
+  </div>
 {% endwith %}
 <script>
 
@@ -192,6 +204,11 @@
     });
   }
 </script>
+<br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br />
 <br /><br /><br /><br /><br /><br /><br /><br /><br />
 <br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endblock %}
