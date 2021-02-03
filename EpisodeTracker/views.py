@@ -11,7 +11,8 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
 def homeview(request):
-	return render(request, "index.html", {})
+    series_index = Series.objects.filter(user_id=request.user.id)
+    return render(request, "index.html", {'series_index': series_index,})
 
 def signupview(request):
     if request.method == 'POST':
@@ -30,6 +31,7 @@ def signupview(request):
     return render(request, 'signup.html', {'form': form})
 
 def profileview(request):
+    series_index = Series.objects.filter(user_id=request.user.id)
     if not request.user.is_anonymous:
         form = EditProfileForm(instance=request.user)
     if request.user.is_anonymous:
@@ -47,9 +49,10 @@ def profileview(request):
             form = EditProfileForm(instance=request.user)
             messages.error(request, "Something went wrong, maybe the username your're tying to add is already taken.")
             return HttpResponseRedirect('/profile/')
-    return render(request, "profile.html", {'form': form})
+    return render(request, "profile.html", {'form': form, 'series_index': series_index,})
 
 def changepwd(request):
+    series_index = Series.objects.filter(user_id=request.user.id)
     form = PasswordChangeForm(request.user)
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -64,11 +67,12 @@ def changepwd(request):
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordChangeForm(request.user)
-    return render(request, 'changepwd.html', {'form': form})
+    return render(request, 'changepwd.html', {'form': form, 'series_index': series_index})
 
 def seriesview(request):
     form = SeriesForm(request.POST or None)
     obj = Series.objects.filter(user_id=request.user.id)
+    series_index = obj
 
     if request.session.get('layout', None) != '/series':
         request.session['layout'] = '/series'
@@ -84,11 +88,12 @@ def seriesview(request):
             instance.user = request.user
             instance.save()
             return HttpResponseRedirect('/series/')
-    return render(request, 'series.html', {'form': form, 'obj': obj})
+    return render(request, 'series.html', {'form': form, 'obj': obj,'series_index': series_index})
 
 def serieslistview(request):
     form = SeriesForm(request.POST or None)
     obj = Series.objects.filter(user_id=request.user.id)
+    series_index = obj
     count = Series.objects.annotate(Count('seasons')).all()
     count = count.values_list('SeriesName', 'seasons__count')
 
@@ -106,11 +111,12 @@ def serieslistview(request):
             instance.user = request.user
             instance.save()
             return HttpResponseRedirect('/series/list')
-    return render(request, 'serieslist.html', {'form': form, 'obj': obj, 'count': count,})
+    return render(request, 'serieslist.html', {'form': form, 'obj': obj, 'count': count,'series_index': series_index})
 
 def seriessimpleview(request):
     form = SeriesForm(request.POST or None)
     obj = Series.objects.filter(user_id=request.user.id)
+    series_index = obj
 
     if request.session.get('layout', None) != '/series/simple':
         request.session['layout'] = '/series/simple'
@@ -126,20 +132,23 @@ def seriessimpleview(request):
             instance.user = request.user
             instance.save()
             return HttpResponseRedirect('/series/simple')
-    return render(request, 'seriessimple.html', {'form': form, 'obj': obj})
+    return render(request, 'seriessimple.html', {'form': form, 'obj': obj, 'series_index': series_index})
 
 def aboutview(request):
-    return render(request, 'about.html', {})
+    series_index = Series.objects.filter(user_id=request.user.id)
+    return render(request, 'about.html', {'series_index': series_index})
 
 def reportview(request):
+    series_index = Series.objects.filter(user_id=request.user.id)
     if request.method == 'POST':
         subject = request.POST['title']
         body = request.POST['description']
         send_mail(subject, body, None, ['k.sonuc101@gmail.com'], fail_silently=True)
-    return render(request, 'report.html', {})
+    return render(request, 'report.html', {'series_index': series_index})
 
 def notfoundview(request):
-    return render(request, 'notfound.html', {})
+    series_index = Series.objects.filter(user_id=request.user.id)
+    return render(request, 'notfound.html', {'series_index': series_index})
 
 def createList(val):
     mylist = []
@@ -155,6 +164,7 @@ def createUnwatchedList(episodes_watched, val):
 
 def seriespage(request, slug):
     series = Series.objects.filter(slug=slug)
+    series_index = Series.objects.filter(user_id=request.user.id)
     series = series[0]
     seasons = series.seasons_set.all()
 
@@ -203,6 +213,7 @@ def seriespage(request, slug):
         form = SeasonsForm()
 
     data =  {
+        'series_index': series_index,
         'form': form,
         'slug': slug, 
         'series': series, 
@@ -215,6 +226,7 @@ def seriespage(request, slug):
     return render(request, 'seriespage.html', data)
 
 def seasonspage(request, series_slug, season_slug):
+    series_index = Series.objects.filter(user_id=request.user.id)
     series = Series.objects.filter(slug = series_slug)
     series = series[0]
     seasons = series.seasons_set.filter(slug=season_slug)
@@ -254,6 +266,7 @@ def seasonspage(request, series_slug, season_slug):
         form = SeasonsForm(instance=season)
 
     data = {
+        'series_index': series_index,
         'form': form,
         'series': series,
         'season': season,
@@ -264,6 +277,7 @@ def seasonspage(request, series_slug, season_slug):
     return render(request, 'seasons.html', data)
 
 def editseriesview(request, slug):
+    series_index = Series.objects.filter(user_id=request.user.id)
     series = Series.objects.filter(slug=slug)
     series = series[0]
 
@@ -284,9 +298,10 @@ def editseriesview(request, slug):
             return HttpResponseRedirect('/series/edit/%s' % slug)
     else:
         form = SeriesForm(instance=series)
-    return render(request, 'editseries.html', {'form': form,})
+    return render(request, 'editseries.html', {'form': form, 'series_index': series_index,})
 
 def seasons_progress_page(request, series_slug, season_slug):
+    series_index = Series.objects.filter(user_id=request.user.id)
     series = Series.objects.filter(slug = series_slug)
     series = series[0]
     seasons = series.seasons_set.filter(slug=season_slug)
@@ -319,6 +334,7 @@ def seasons_progress_page(request, series_slug, season_slug):
         form = SeasonsForm(instance=season)
 
     data = {
+        'series_index': series_index,
         'form': form,
         'series': series,
         'season': season,

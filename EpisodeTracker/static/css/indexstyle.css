@@ -20,6 +20,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+/*#search-button {
+  position: relative;
+  left: 15%;
+}*/
 #button-container {
   position: relative;
   left: 50%;
