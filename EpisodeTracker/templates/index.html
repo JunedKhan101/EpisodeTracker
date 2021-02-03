@@ -19,7 +19,9 @@
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
   <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.datetimepicker.css' %}"> -->
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet">
@@ -51,20 +53,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Left links -->
       <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-        </li>
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" id="MySeries" href="{{ request.session.layout }}">My Series</a>
-        </li>
-        {% endif %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'report' %}">Report a Bug</a>
-        </li>
+        {% block nav %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" id="MySeries" href="{{ request.session.layout }}">My Series</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'report' %}">Report a Bug</a>
+          </li>
+        {% endblock %}
         {% if user.is_authenticated %}
         <div id="responsive-navbar">
           <li class="nav-item">
@@ -86,14 +90,19 @@
         {% endif %}
         
       </ul>
-      <form id="navbar-right-corner" class="d-flex input-group w-auto">
-        {% if user.is_authenticated %}
+      <form id="navbar-right-corner" class="d-flex input-group w-auto" style="border: 1px solid black;">
+        <!-- {% if user.is_authenticated %}
         <input id="search-inputtype"
         type="search"
         class="form-control"
         placeholder="Type query"
         aria-label="Search"
-        />&nbsp;
+        />-->
+        <select multiple class="js-example-basic-single" name="state">
+          <option value="AL">Alabama</option>
+          <option value="WY">Wyoming</option>
+        </select>
+        &nbsp; 
         <button id="search-button" class="btn btn-outline-dark" type="button" data-ripple-color="dark">
           Search
         </button>
@@ -142,6 +151,9 @@
     var myseries = document.getElementById("MySeries");
     myseries.href = sessionStorage.layout;
   }
+  $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+  });
 </script>
 
 </body>

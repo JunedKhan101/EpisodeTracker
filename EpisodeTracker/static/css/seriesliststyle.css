@@ -19,15 +19,14 @@
 }
 #series-root-container {
   position: relative;
-  left: 12%;
+  left: 43%;
   top: 20%;
   transform: translate(-50px, -50px);
   /*display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;*/
-  width: 80%;
+  justify-content: center;*/
+  width: 100%;
 }
 #series-root-container > *:not(:first-child){
     margin-top: 30px;
@@ -36,9 +35,9 @@
   text-decoration: none;
 }
 #series-card {
-  width: 40%;
+  width: 100%;
   height: 80px;
-  /*border: 1px solid black;*/      
+  /*border: 1px solid black; */    
   /*border-radius: 15px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);*/
   transition: transform 0.3s;
@@ -53,18 +52,21 @@
 #series-card > p {
   margin-left: 5px;
 }
-#series-card-name:after {
+/*#series-card-name:after {
   content: " \00b7";
-}
+}*/
 #CoverImage {
   width: 100px;
   height: 100px;
   overflow: hidden;
   object-fit: cover;
   border-radius: 15px;
+  /*border: 1px solid black; */
 }
 #CoverImage-container {
-  width: 100px;
+  max-width: 100%;
+  /*border: 1px solid black;*/
+  overflow: hidden;
 }
 @media only screen and (max-width: 768px) {
   #LayoutDropdown {
@@ -77,5 +79,28 @@
   }
   #create-series-btn {
     left: 35%;
+  }
+  #series-root-container {
+    left: 13%;
+  }
+}
+@media only screen and (max-width: 1020px) {
+  #series-card {
+    left: 15%;
+  }
+}
+@media only screen and (max-width: 696px) {
+  #series-card {
+    left: 20%;
+  }
+}
+@media only screen and (max-width: 521px) {
+  #series-card {
+    left: 25%;
+  }
+}
+@media only screen and (max-width: 421px) {
+  #series-card {
+    left: 30%;
   }
 }

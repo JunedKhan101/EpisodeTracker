@@ -46,9 +46,9 @@
 
 <div id="series-root-container">
   {% for series in obj %}
-  <div id="series-card">
-    <a href="{% url 'seriespage' series.slug %}">{{series.SeriesName}}</a>
-  </div>
+    <ul>
+      <li><a href="{% url 'seriespage' series.slug %}">{{series.SeriesName}}</a></li>
+    </ul>
   {% endfor %}
 </div>
 {% if not obj %}

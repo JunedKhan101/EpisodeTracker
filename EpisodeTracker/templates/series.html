@@ -4,6 +4,22 @@
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/seriesstyle.css' %}">
 {% endblock %}
+{% block nav %}
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
+  </li>
+  {% if user.is_authenticated %}
+    <li class="nav-item">
+      <a class="nav-link active" id="MySeries" href="{{ request.session.layout }}">My Series</a>
+    </li>
+  {% endif %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'about' %}">About</a>
+    </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'report' %}">Report a Bug</a>
+  </li>
+{% endblock %}
 {% block content %}
 <button id="create-series-btn" class="btn btn-primary" data-toggle="modal" data-target="#seriesmodal">Add series</button>
 

@@ -48,10 +48,14 @@
   {% for series in obj %}
     <a id="ahref-seriescard" href="{% url 'seriespage' series.slug %}">
       <div id="CoverImage-container">
-        <img id="CoverImage" src="{{series.CoverImage.url}}" alt="Img">
+      	{% if series.CoverImage.name == '/default_img.png' %}
+        	<img id="CoverImage" style="border: 1px solid black;" src="{{series.CoverImage.url}}" alt="Img">
+        {% else %}
+        	<img id="CoverImage" src="{{series.CoverImage.url}}" alt="Img">
+        {% endif %}
       </div>
       <div id="series-card">
-        <h5 id="series-card-name">{{ series.SeriesName }}</h5>&nbsp;&nbsp;{{series.get_Label_display}}
+        <h5 id="series-card-name">{{ series.SeriesName }}&nbsp;&bull;&nbsp;{{series.get_Label_display}}</h5>
         <br />
         <p>
           {% if series.is_multiple_seasons != True %}
