@@ -1,1 +1,1 @@
-web: gunicorn EpisodeTracker.wsgi --log-file -
+web: gunicorn EpisodeTrackerProject.wsgi --log-file -
