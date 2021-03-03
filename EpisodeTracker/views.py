@@ -12,7 +12,8 @@ from django.db.models import Count
 
 def homeview(request):
     series_index = Series.objects.filter(user_id=request.user.id)
-    request.session['layout'] = '/series'
+    if 'layout' not in request.session:
+        request.session['layout'] = '/series'
     return render(request, "index.html", {'series_index': series_index,})
 
 def signupview(request):
