@@ -14,8 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from django.urls import path
+from django.urls import path, include, re_path
 from EpisodeTracker import views
 from django.contrib.auth import views as auth_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -25,10 +24,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.homeview, name='home'),
-
-    path('series/', views.seriesview, name='series'),
-    path('series/list', views.serieslistview, name='serieslist'),
-    path('series/simple', views.seriessimpleview, name='seriessimple'),
     
     path('about/', views.aboutview, name='about'),
     path('report/', views.reportview, name='report'),
@@ -38,8 +33,13 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), {'template_name': 'login.html'}, name='login'),
     path('logout/', auth_views.LogoutView.as_view(), {'template_name': 'logout.html'}, name='logout'),
     path('profile/pwd/', views.changepwd, name='changepwd'),
+    
     path('', include('django.contrib.auth.urls')),
+    path('', include('social_django.urls', namespace='social')),
 
+    re_path(r'^series/$', views.seriesview, name='series'),
+    path('series/list', views.serieslistview, name='serieslist'),
+    path('series/simple', views.seriessimpleview, name='seriessimple'),
     path('series/<slug:slug>', views.seriespage, name = 'seriespage'),
     path('series/edit/<slug:slug>', views.editseriesview, name='editseries'),
     path('series/<slug:series_slug>/<slug:season_slug>', views.seasonspage, name = 'seasonspage'),

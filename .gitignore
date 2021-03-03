@@ -11,3 +11,4 @@
 **/__pycache__
 **/StaticStorage
 db.sqlite3
+.env

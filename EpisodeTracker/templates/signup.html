@@ -42,6 +42,9 @@
   <a id="signup-account-question" href="{% url 'login' %}">Already have an account?</a>
   </div>
   <br><br>
+  <a href="{% url 'social:begin' 'google-oauth2' %}">Google+</a>
+  <a href="{% url 'social:begin' 'facebook' %}">Facebook</a>
+  <a href="{% url 'social:begin' 'twitter' %}">Twitter</a>
   </form>
 </div>
 </div>

@@ -8,9 +8,11 @@
 <button id="create-series-btn" class="btn btn-primary" data-toggle="modal" data-target="#seriesmodal">Add series</button>
 
 <div class="dropdown" id="LayoutDropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Layout
-  </button>
+  {% if obj %}
+    <button id="layout-btn" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Layout
+    </button>
+  {% endif %}
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <a id="link" class="dropdown-item" href="{% url 'series' %}">Grid</a>
       <a id="link" class="dropdown-item" href="{% url 'serieslist' %}">List</a>

@@ -20,17 +20,37 @@
     <a class="nav-link" href="{% url 'report' %}">Report a Bug</a>
   </li>
 {% endblock %}
-{% block content %}
-<button id="create-series-btn" class="btn btn-primary" data-toggle="modal" data-target="#seriesmodal">Add series</button>
 
+{% block content %}
+{% if user.is_authenticated %}
+  <button id="create-series-btn" class="btn btn-primary" data-toggle="modal" data-target="#seriesmodal">Add series</button>
+{% else %}
+  <div id="btns-container">
+    <a href="{% url 'signup' %}" id="signup-btn" class="btn btn-primary">Signup</a>
+    <a href="{% url 'login' %}" id="login-btn" class="btn btn-primary">Login</a>
+  </div>
+{% endif %}
 <div class="dropdown" id="LayoutDropdown">
-  <button id="layout-btn" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Layout
-  </button>
+  {% if obj %}
+    <button id="layout-btn" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Layout
+    </button>
+  {% endif %}
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <a id="link" class="dropdown-item active" href="{% url 'series' %}">Grid</a>
       <a id="link" class="dropdown-item" href="{% url 'serieslist' %}">List</a>
-      <a  id="link" class="dropdown-item" href="{% url 'seriessimple' %}">Simple</a>
+      <a id="link" class="dropdown-item" href="{% url 'seriessimple' %}">Simple</a>
+  </div>
+</div>
+<div class="dropdown" id="SortByDropdown">
+  {% if obj %}
+    <button id="sortby-btn" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Sort by
+    </button>
+  {% endif %}
+  <div class="dropdown-menu" aria-labelledby="sortby-btn">
+      <a href="/series/?sortby=newest" id="link" class="dropdown-item">Newest</a>
+      <a href="/series/?sortby=oldest" id="link" class="dropdown-item">Oldest</a>
   </div>
 </div>
 <!-- Modal -->
@@ -70,7 +90,13 @@
      <div class="series-container">
         <p>{{ series.SeriesName }}</p>
         <p style="position: relative; bottom: 5px;">
-          {% if not series.is_multiple_seasons %}
+          {% if  series.is_multiple_seasons %}
+            {% for i in count %}
+              {% if i.0 == series.SeriesName %}
+                {{i.1}} Seasons
+              {% endif %}
+            {% endfor %}
+          {% else %}
             {{series.EpisodesWatched}}/{{series.NoEpisodes}} Watched</p>
           {% endif %}
       </div>
@@ -79,12 +105,18 @@
     {% endfor %}
 </div>
 {% if not obj %}
-  <div id="noseries">
-    <h1>You have no series yet.</h1>
-  </div>
+  {% if user.is_authenticated %}
+    <div id="noseries">
+      <h1>You have no series yet.</h1>
+    </div>
+  {% else %}
+    <div id="noseries">
+      <h1>You need to login/signup to create series</h1>
+    </div>
+  {% endif %}
 {% endif %}
 
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 <script>
   `{% if form.non_field_errors %}`
     $("#errormsg").html( `{{ form.non_field_errors|striptags }}` );

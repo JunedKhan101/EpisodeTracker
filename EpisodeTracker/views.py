@@ -5,13 +5,14 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, AuthenticationForm
 from EpisodeTracker.forms import SignUpForm, EditProfileForm, SeriesForm, SeasonsForm
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 from .models import Series
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
 def homeview(request):
     series_index = Series.objects.filter(user_id=request.user.id)
+    request.session['layout'] = '/series'
     return render(request, "index.html", {'series_index': series_index,})
 
 def signupview(request):
@@ -60,8 +61,17 @@ def changepwd(request):
             user = form.save()
             user.refresh_from_db()
             update_session_auth_hash(request, user)  # Important!
-            send_mail(
-            'Password changed', 'Hi ' + user.username + ', your password has been successfully changed. If you didn\'t did this then you might consider taking some action', None, [user.email], fail_silently=True)
+            # send_mail(
+            # 'Password changed', 'Hi ' + user.username + ', your password has been successfully changed. If you didn\'t did this then you might consider taking some action', None, [user.email], fail_silently=True)
+            subject = "Password Changed"
+            html_content = """
+                    <h1>Password Changed</h1>
+                    <br />
+                    <h2>Hi %s</h2>
+                    <p style='font-size: 18px;'>your password has been successfully changed. If you didn\'t do this then please consider changing your password and securing your account</p>""" % user.username
+            msg = EmailMessage(subject, html_content, None, [user.email])
+            msg.content_subtype = "html"  # Main content is now text/html
+            msg.send()
             return redirect('profile')
         else:
             messages.error(request, 'Please correct the error below.')
@@ -72,8 +82,16 @@ def changepwd(request):
 def seriesview(request):
     form = SeriesForm(request.POST or None)
     obj = Series.objects.filter(user_id=request.user.id)
-    series_index = obj
 
+    sortby = request.GET.get('sortby', '')
+    if sortby == 'newest':
+        obj = Series.objects.filter(user_id=request.user.id).order_by('-DateCreated')
+    elif sortby == 'oldest':
+        obj = Series.objects.filter(user_id=request.user.id)
+
+    series_index = obj
+    count = Series.objects.annotate(Count('seasons')).all()
+    count = count.values_list('SeriesName', 'seasons__count')
     if request.session.get('layout', None) != '/series':
         request.session['layout'] = '/series'
 
@@ -88,7 +106,7 @@ def seriesview(request):
             instance.user = request.user
             instance.save()
             return HttpResponseRedirect('/series/')
-    return render(request, 'series.html', {'form': form, 'obj': obj,'series_index': series_index})
+    return render(request, 'series.html', {'form': form, 'obj': obj,'series_index': series_index, 'count': count,})
 
 def serieslistview(request):
     form = SeriesForm(request.POST or None)

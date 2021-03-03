@@ -5,16 +5,32 @@
   top: 50px;
   transform: translate(-50%, -50%);
 }
+#btns-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 50px;
+}
+#btns-container > a {
+  margin: 5px;
+}
 #noseries {
   position: relative;
   left: 50%;
-  top: 200px;
+  top: 220px;
   transform: translate(-50%, -50%);
 }
 #LayoutDropdown {
   position: relative;
-  left: 80%;
+  left: 78%;
   bottom: 3px;
+  z-index: 1;
+}
+#SortByDropdown {
+  position: relative;
+  left: 87%;
+  bottom: 38px;
   z-index: 1;
 }
 #series-root-container {

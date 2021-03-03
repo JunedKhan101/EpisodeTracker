@@ -20,8 +20,6 @@
 
   <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.datetimepicker.css' %}"> -->
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet">
@@ -89,7 +87,7 @@
         </div>
         {% endif %}
       </ul>
-
+      
       <form id="navbar-right-corner" class="d-flex" style="width: 35%;">
         <div class="dropdown input-group" style="width: 70%;position: relative;left: 5%;">
           {% if user.is_authenticated %}
@@ -120,9 +118,9 @@
           </li>
         </ul>
         {% else %}
-        <div id="navbar-buttons">
-          <a class="btn btn-outline-dark" href="{% url 'login' %}">Login</a>&nbsp;
-          <a class="btn btn-outline-dark" href="{% url 'signup' %}">Signup</a>
+        <div id="navbar-buttons" style="position: relative;left: 90%;">
+          <a class="btn btn-outline-primary" href="{% url 'login' %}">Login</a>&nbsp;
+          <a class="btn btn-outline-primary" href="{% url 'signup' %}">Signup</a>
         </div>
         {% endif %}
       </form>
@@ -164,7 +162,6 @@
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById("search-input");
     filter = input.value.toUpperCase();
-    // ul = document.getElementById("myUL");
     li = document.getElementsByClassName("dropdown-option");
     for (i = 0; i < li.length; i++) {
         txtValue = li[i].textContent || li[i].innerText;

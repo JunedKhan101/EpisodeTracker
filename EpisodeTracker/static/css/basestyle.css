@@ -3,7 +3,7 @@ html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
 *:before, *:after {
  box-sizing: border-box;
 }
-#CompanyName{
+#CompanyName {
   font-family: 'Ranchers', cursive;
   font-size: 25px;
 }
@@ -17,8 +17,12 @@ html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
   background-color: #007bff;
   color: #FFFFFF;
 }
-#dropdown-menu{ overflow: hidden; }
+#dropdown-menu  { overflow: hidden; }
 #responsive-navbar, #responsive-navbar2 { display: none; }
+#navbar-buttons {
+  position: relative;
+  left: 70%;
+}
 @media only screen and (max-width: 991px) {
   #responsive-navbar, #responsive-navbar2 { display: block; }
   #search-inputtype, #search-button, #navbar-dropdown, #navbar-buttons { display: none; }
